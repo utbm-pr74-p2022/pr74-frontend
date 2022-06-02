@@ -6,6 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Axel LUNG
 Lucas CHÂTEAU
 Joris VIENNET
+Quentin DELIGNOU
 
 ## Development server
 
