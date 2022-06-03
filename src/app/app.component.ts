@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pr74-frontend';
+  selectedValue: string = 'val1';
 }
+
+
