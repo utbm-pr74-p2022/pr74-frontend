@@ -12,18 +12,14 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import {CardModule} from 'primeng/card';
 import { BoardComponent } from './board/board.component';
-import { Routes, RouterModule } from '@angular/router';
 import { BacklogComponent } from './backlog/backlog.component';
 import { SettingsComponent } from './settings/settings.component';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
+import { ConnectionComponent } from './connection/connection.component';
+import {InputTextModule} from 'primeng/inputtext';
 
 
-const appRoutes: Routes = [
-  { path: 'board', component: BoardComponent },
-  { path: 'backlog', component: BacklogComponent },
-  { path: 'settings', component: SettingsComponent },
-];
 
 @NgModule({
   declarations: [
@@ -32,18 +28,19 @@ const appRoutes: Routes = [
     BoardComponent,
     BacklogComponent,
     SettingsComponent,
+    ConnectionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MenuModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes),
     ButtonModule,
     RippleModule,
     CardModule,
     AvatarModule,
     AvatarGroupModule,
+    InputTextModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
