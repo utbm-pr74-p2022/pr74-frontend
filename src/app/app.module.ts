@@ -21,6 +21,8 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
 
 const appRoutes: Routes = [
   { path: 'board', component: BoardComponent },
+  { path: 'backlog', component: BacklogComponent },
+  { path: 'settings', component: SettingsComponent },
 ];
 
 @NgModule({

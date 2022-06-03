@@ -12,11 +12,11 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Menu Navigation',
+        label: 'Navigation Bar',
         items: [
           { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board"},
-          { label: 'Backlog', icon: 'pi pi-fw pi-list' },
-          { label: 'Settings', icon: 'pi pi-fw pi-sliders-h' },
+          { label: 'Backlog', icon: 'pi pi-fw pi-list', routerLink: "backlog" },
+          { label: 'Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: "settings" },
         ],
       },
     ];
