@@ -6,24 +6,17 @@ import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
 
-import {MenuModule} from 'primeng/menu';
+import { MenuModule } from 'primeng/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import {CardModule} from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { BoardComponent } from './board/board.component';
-import { Routes, RouterModule } from '@angular/router';
 import { BacklogComponent } from './backlog/backlog.component';
 import { SettingsComponent } from './settings/settings.component';
-import {AvatarModule} from 'primeng/avatar';
-import {AvatarGroupModule} from 'primeng/avatargroup';
-
-
-const appRoutes: Routes = [
-  { path: 'board', component: BoardComponent },
-  { path: 'backlog', component: BacklogComponent },
-  { path: 'settings', component: SettingsComponent },
-];
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { DragDropModule } from 'primeng/dragdrop';
 
 @NgModule({
   declarations: [
@@ -38,12 +31,12 @@ const appRoutes: Routes = [
     AppRoutingModule,
     MenuModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes),
     ButtonModule,
     RippleModule,
     CardModule,
     AvatarModule,
     AvatarGroupModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
