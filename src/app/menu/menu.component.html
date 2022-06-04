@@ -13,6 +13,7 @@
   <br />
   <p-menu styleClass="w-auto shadow-2 flex flex-column justify-content-end" [model]="items"></p-menu>
   <div class="h-screen flex flex-column justify-content-end align-items-center">
-    <p-footer class="shadow-2 border-round px-6 py-3">Project name selected</p-footer>
+    <p-footer class="shadow-2 border-round px-6 py-3 my-2">Project name selected</p-footer>
+    <p-button class="shadow-2 border-round bg-primary" (onClick)="logout()" *ngIf="auth.isLoggedIn">Disconnect</p-button>
   </div>
 </div>

@@ -18,6 +18,7 @@ import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
 import { ConnectionComponent } from './connection/connection.component';
 import {InputTextModule} from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -41,6 +42,7 @@ import {InputTextModule} from 'primeng/inputtext';
     AvatarModule,
     AvatarGroupModule,
     InputTextModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

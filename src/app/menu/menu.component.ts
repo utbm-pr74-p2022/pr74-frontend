@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem} from 'primeng/api';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,17 +10,29 @@ import { MenuItem} from 'primeng/api';
 })
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
+  auth!: AuthService;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.auth = this.authService;
     this.items = [
       {
         label: 'Navigation Bar',
         items: [
-          { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board"},
+          { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board", routerLinkActiveOptions: {exact: true} },
           { label: 'Backlog', icon: 'pi pi-fw pi-list', routerLink: "backlog" },
           { label: 'Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: "settings" },
         ],
       },
     ];
+  }
+
+  logout(){
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }
