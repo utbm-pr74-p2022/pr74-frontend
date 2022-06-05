@@ -1,1 +1,17 @@
-<p>board works!</p>
+<div class="flex flex-row h-screen p-4 fadein animation-duration-500" style="overflow-x:auto; ">
+  <div class="flex-1 flex flex-column shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" style="min-width: 25rem;" *ngFor="let condition of conditions">
+    <div class="flex header justify-content-center align-items-center">
+      <p class="text-4xl font-semibold">{{condition.name}}</p>
+    </div>
+    <div class="content" pDroppable="tasks" (onDrop)="drop(condition.id)">
+      <div *ngFor="let task of tasks">
+        <div class="relative flex-1 flex flex-row shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" pDraggable="tasks" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngIf="task.idCondition == condition.id">
+          <p class="text-xl">{{task.name}}</p>
+          <p-avatarGroup class="absolute right-0 mr-5">
+            <p-avatar image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg" size="large" shape="circle" *ngFor="let assigned of task.idsAssigned"></p-avatar>
+          </p-avatarGroup>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
