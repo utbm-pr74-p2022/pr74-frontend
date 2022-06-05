@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -30,6 +30,8 @@ export class MenuComponent implements OnInit {
       },
     ];
   }
+
+
 
   logout(){
     this.auth.logout();
