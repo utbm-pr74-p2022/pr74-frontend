@@ -25,15 +25,10 @@ export class ConnectionComponent implements OnInit {
     this.auth = this.authService;
   }
 
-  setPopAlert() {
-    this.popAlert = 'popAlert';
-  }
-
   login() {
     this.authService
       .login(this.username, this.password)
       .subscribe((isLoggedIn: boolean) => {
-        this.setPopAlert();
         if (isLoggedIn) {
           this.router.navigate(['/board']);
         } else {

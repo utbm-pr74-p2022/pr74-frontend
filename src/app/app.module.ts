@@ -20,8 +20,9 @@ import { ConnectionComponent } from './connection/connection.component';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import {ToastModule} from 'primeng/toast';
-
-
+import { ProjectsComponent } from './projects/projects.component';
+import {ToolbarModule} from 'primeng/toolbar';
+//import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {ToastModule} from 'primeng/toast';
     BacklogComponent,
     SettingsComponent,
     ConnectionComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,8 @@ import {ToastModule} from 'primeng/toast';
     InputTextModule,
     FormsModule,
     ToastModule,
+    ToolbarModule,
+    //TableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
