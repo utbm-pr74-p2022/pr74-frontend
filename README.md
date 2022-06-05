@@ -8,6 +8,11 @@ Lucas CHÂTEAU
 Joris VIENNET
 Quentin DELIGNOU
 
+# Common information
+
++ Default login: test
++ Default password: test
+
 # Angular
 
 ## Development server
