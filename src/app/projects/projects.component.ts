@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '../services/project';
+import { ProjectService } from '../services/projectService';
 
 @Component({
   selector: 'app-projects',
@@ -7,18 +8,20 @@ import { Project } from '../services/project';
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
-  products!: Project[];
+  projects!: Project[];
 
-  product!: Project;
+  project!: Project;
 
   submitted!: boolean;
 
-  constructor() {}
+  constructor(private projectService: ProjectService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.projectService.getProjects().then(data => this.projects = data);
+  }
 
   openNew() {
-    this.product = {};
+    this.project = {};
     this.submitted = false;
   }
 }

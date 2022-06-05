@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { Project } from './project';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProjectService {
 
     status: string[] = ['CLOSE', 'OPEN', 'PROGRESS'];
@@ -50,12 +52,12 @@ export class ProjectService {
     //     .then(data => { return data; });
     // }
 
-    // getProducts() {
-    //     return this.http.get<any>('assets/products.json')
-    //     .toPromise()
-    //     .then(res => <Product[]>res.data)
-    //     .then(data => { return data; });
-    // }
+    getProjects() {
+        return this.http.get<any>('assets/projects.json')
+        .toPromise()
+        .then(res => <Project[]>res.data)
+        .then(data => { return data; });
+    }
 
     // getProductsWithOrdersSmall() {
     //     return this.http.get<any>('assets/products-orders-small.json')

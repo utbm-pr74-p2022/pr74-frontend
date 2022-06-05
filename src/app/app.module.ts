@@ -22,7 +22,10 @@ import { FormsModule } from '@angular/forms';
 import {ToastModule} from 'primeng/toast';
 import { ProjectsComponent } from './projects/projects.component';
 import {ToolbarModule} from 'primeng/toolbar';
-//import {TableModule} from 'primeng/table';
+import {TableModule} from 'primeng/table';
+
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import {ToolbarModule} from 'primeng/toolbar';
     FormsModule,
     ToastModule,
     ToolbarModule,
-    //TableModule,
+    TableModule,
+    ScrollingModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
