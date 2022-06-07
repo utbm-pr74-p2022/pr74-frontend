@@ -26,6 +26,9 @@ import {TableModule} from 'primeng/table';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
+import {DialogModule} from 'primeng/dialog';
+import {MultiSelectModule} from 'primeng/multiselect';
+
 
 @NgModule({
   declarations: [
@@ -54,6 +57,8 @@ import { HttpClientModule } from '@angular/common/http';
     TableModule,
     ScrollingModule,
     HttpClientModule,
+    DialogModule,
+    MultiSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

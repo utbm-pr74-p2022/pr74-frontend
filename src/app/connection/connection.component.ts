@@ -30,7 +30,7 @@ export class ConnectionComponent implements OnInit {
       .login(this.username, this.password)
       .subscribe((isLoggedIn: boolean) => {
         if (isLoggedIn) {
-          this.router.navigate(['/board']);
+          this.router.navigate(['/']);
         } else {
           this.showFailedConnection();
           this.password = '';

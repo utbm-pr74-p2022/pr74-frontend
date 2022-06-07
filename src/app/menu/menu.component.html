@@ -1,4 +1,4 @@
-<div class="flex flex-column h-screen p-4 fadein animation-duration-500">
+<div *ngIf="auth.isLoggedIn" class="flex flex-column h-screen p-4 fadein animation-duration-500">
   <div class="shadow-2 card flex flex-row surface-0 border-round justify-content-center align-items-center py-3">
     <p-avatar styleClass="mx-2 h-auto" image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg"></p-avatar>
     <div class="flex flex-column">

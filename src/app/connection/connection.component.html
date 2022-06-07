@@ -1,7 +1,6 @@
 
 <p-toast></p-toast>
-<div class="flex flex-row w-screen">
-  <!-- <app-menu></app-menu> -->
+<div *ngIf="!auth.isLoggedIn" class="flex flex-row w-screen">
   <div class="h-screen flex flex-grow-1 justify-content-center align-items-center">
     <p-card header="SCRUM TOOL APP" subheader="Connection Form" [style]="{width: '360px'}" styleClass="p-card-shadow">
       <span class="p-float-label">
