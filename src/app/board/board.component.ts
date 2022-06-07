@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Condition } from '../types/condition.type';
-import { Task } from '../types/task.type';
+import { Condition } from '../models/condition.model';
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-board',
