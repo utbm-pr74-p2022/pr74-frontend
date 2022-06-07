@@ -7,3 +7,27 @@ body .p-component{
 body{
   margin: 0;
 }
+
+/* width */
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+  margin-bottom: 1px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  //box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(82, 82, 82);
+}
