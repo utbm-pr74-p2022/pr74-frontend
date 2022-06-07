@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '../models/project.model';
-import { Status } from '../models/status.model';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -17,23 +16,17 @@ export class ProjectsComponent implements OnInit {
 
   submitted!: boolean;
 
-  status: Status[] = [{name: "OPEN"}];
-  selectedStatus: Status[] = [];
+  selectedStatus: any = null;
 
-  cities!: any[];
-  selectedCities1: string = "";
+  projectStatusList: any[] = [{name: 'OPEN', key: 'O'},
+                      {name: 'PROGRESS', key: 'P'},
+                      {name: 'CLOSE', key: 'C'}];
 
   constructor(private projectService: ProjectService) {
-    this.cities = [
-      { name: "New York", code: "NY" },
-      { name: "Rome", code: "RM" },
-      { name: "London", code: "LDN" },
-      { name: "Istanbul", code: "IST" },
-      { name: "Paris", code: "PRS" }
-    ];
   }
 
   ngOnInit(): void {
+    this.selectedStatus = this.projectStatusList[0];
     this.projectService.getProjects().then((data) => (this.projects = data));
   }
 
@@ -48,6 +41,7 @@ export class ProjectsComponent implements OnInit {
 
     if (this.project.title) {
       if (this.project.id) {
+        this.project.status = this.selectedStatus['name'];
         this.projects[this.findIndexById(this.project.id)] = this.project;
         // this.messageService.add({
         //   severity: 'success',
@@ -59,7 +53,9 @@ export class ProjectsComponent implements OnInit {
         this.project.id = this.createId();
         this.project.projectNo = "PRO00001";
         this.project.createdDate = new Date();
+        this.project.status = this.selectedStatus['name'];
         this.projects.push(this.project);
+
         // this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
       }
 
@@ -84,4 +80,9 @@ export class ProjectsComponent implements OnInit {
   createId(): number {
     return Math.floor(Math.random() * Math.floor(299) + 1);
   }
+
+  editProduct(project: Project) {
+    this.project = {...project};
+    this.projectDialog = true;
+}
 }
