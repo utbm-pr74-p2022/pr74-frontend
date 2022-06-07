@@ -12,18 +12,23 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import {CardModule} from 'primeng/card';
 import { BoardComponent } from './board/board.component';
-import { Routes, RouterModule } from '@angular/router';
 import { BacklogComponent } from './backlog/backlog.component';
 import { SettingsComponent } from './settings/settings.component';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
+import { ConnectionComponent } from './connection/connection.component';
+import {InputTextModule} from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import {ToastModule} from 'primeng/toast';
+import { ProjectsComponent } from './projects/projects.component';
+import {ToolbarModule} from 'primeng/toolbar';
+import {TableModule} from 'primeng/table';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { HttpClientModule } from '@angular/common/http';
+import {DialogModule} from 'primeng/dialog';
+import {MultiSelectModule} from 'primeng/multiselect';
 
-const appRoutes: Routes = [
-  { path: 'board', component: BoardComponent },
-  { path: 'backlog', component: BacklogComponent },
-  { path: 'settings', component: SettingsComponent },
-];
 
 @NgModule({
   declarations: [
@@ -32,18 +37,28 @@ const appRoutes: Routes = [
     BoardComponent,
     BacklogComponent,
     SettingsComponent,
+    ConnectionComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MenuModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes),
     ButtonModule,
     RippleModule,
     CardModule,
     AvatarModule,
     AvatarGroupModule,
+    InputTextModule,
+    FormsModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    ScrollingModule,
+    HttpClientModule,
+    DialogModule,
+    MultiSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
