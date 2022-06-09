@@ -33,7 +33,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean>{
     const isLoggedIn = (username == 'test' && password == 'test');
 
-    this.loginUser({username: username, roles: ['ROLE_USER']});
+    this.loginUser({email:username, firstName: username, lastName:username, roles: ['Scrum Master']});
 
     return of(isLoggedIn).pipe(
       delay(1000),
@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   loginUser(data: any) {
-    let user = new User(data.username, data.roles);
+    let user = new User(data.email, data.firstName, data.lastName, data.roles);
     //this.tokenStorage.saveToken(data.accessToken);
     this.tokenStorage.saveUser(user);
     this.currentUserSubject.next(user);
