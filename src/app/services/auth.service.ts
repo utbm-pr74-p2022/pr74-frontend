@@ -33,6 +33,8 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean>{
     const isLoggedIn = (username == 'test' && password == 'test');
 
+    this.loginUser({username: username, roles: ['ROLE_USER']});
+
     return of(isLoggedIn).pipe(
       delay(1000),
       tap(isLoggedIn => this.isLoggedIn = isLoggedIn)
@@ -55,20 +57,22 @@ export class AuthService {
 
   logout(){
     this.isLoggedIn = false;
-    //this.currentUserSubject.next(null!);
-    //this.tokenStorage.signOut();
+    this.currentUserSubject.next(null!);
+    this.tokenStorage.signOut();
   }
 
   loginUser(data: any) {
     let user = new User(data.username, data.roles);
-    this.tokenStorage.saveToken(data.accessToken);
+    //this.tokenStorage.saveToken(data.accessToken);
     this.tokenStorage.saveUser(user);
     this.currentUserSubject.next(user);
   }
 
   public isAuthenticated(): boolean {
-    let token = this.tokenStorage.getToken();
-    return !this.jwtHelper.isTokenExpired(token!);
+    //let token = this.tokenStorage.getToken();
+    //return !this.jwtHelper.isTokenExpired(token!);
+    let user = this.tokenStorage.getUser();
+    return user;
   }
 
   getToken(): string | null {

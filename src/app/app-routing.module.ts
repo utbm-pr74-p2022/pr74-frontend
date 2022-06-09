@@ -8,11 +8,11 @@ import { AuthGuard } from './services/auth.guard';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-  { path: '', component: ConnectionComponent},
+  { path: '', component: ConnectionComponent },
   { path: 'board', component: BoardComponent, canActivate: [AuthGuard] },
   { path: 'backlog', component: BacklogComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

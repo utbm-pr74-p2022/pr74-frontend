@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
-  auth!: AuthService;
+  auth!: User;
 
   constructor(
     private router: Router,
@@ -18,7 +19,10 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.auth = this.authService;
+    this.authService.currentUser.subscribe(x =>
+    {
+      this.auth = x;
+    });
     this.items = [
       {
         label: 'Navigation Bar',
@@ -32,10 +36,8 @@ export class MenuComponent implements OnInit {
     ];
   }
 
-
-
   logout(){
-    this.auth.logout();
+    this.authService.logout();
     this.router.navigate(['/']);
   }
 }
