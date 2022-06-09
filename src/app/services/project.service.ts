@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Project } from '../models/project.model';
+import { CrudService } from './crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ProjectService extends CrudService<Project, number> {
 
     status: string[] = ['CLOSE', 'OPEN', 'PROGRESS'];
 
@@ -15,7 +16,9 @@ export class ProjectService {
         "Black Watch",
     ];
 
-    constructor(private http: HttpClient) { }
+    constructor(protected http: HttpClient) {
+      super(http, `projects`);
+    }
 
     // getProductsSmall() {
     //     return this.http.get<any>('assets/products-small.json')
