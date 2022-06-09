@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { Project } from '../models/project.model';
 import { AuthService } from '../services/auth.service';
 import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
