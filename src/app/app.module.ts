@@ -25,6 +25,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ConnectionComponent } from './connection/connection.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { DragDropModule } from 'primeng/dragdrop';
+import {RadioButtonModule} from 'primeng/radiobutton';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { DragDropModule } from 'primeng/dragdrop';
     HttpClientModule,
     DialogModule,
     MultiSelectModule,
-    DragDropModule
+    DragDropModule,
+    RadioButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

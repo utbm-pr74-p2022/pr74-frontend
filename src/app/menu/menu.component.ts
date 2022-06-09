@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
+import { MenuService } from '../services/menu.service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,10 +14,13 @@ import { AuthService } from '../services/auth.service';
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
   auth!: User;
+  selectedProjectt!: string;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private projectService: ProjectService,
+    private menuService: MenuService
   ) { }
 
   ngOnInit() {
@@ -23,6 +28,11 @@ export class MenuComponent implements OnInit {
     {
       this.auth = x;
     });
+
+    this.menuService.getSelectedProject().subscribe((d) =>{
+      this.selectedProjectt = d;
+    });
+
     this.items = [
       {
         label: 'Navigation Bar',
