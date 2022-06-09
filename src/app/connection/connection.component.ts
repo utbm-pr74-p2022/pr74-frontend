@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-connection',
@@ -30,7 +30,7 @@ export class ConnectionComponent implements OnInit {
       .login(this.username, this.password)
       .subscribe((isLoggedIn: boolean) => {
         if (isLoggedIn) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/projects']);
         } else {
           this.showFailedConnection();
           this.password = '';

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '../models/project.model';
+import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -18,12 +19,15 @@ export class ProjectsComponent implements OnInit {
 
   selectedStatus: any = null;
 
-  projectStatusList: any[] = [{name: 'OPEN', key: 'O'},
-                      {name: 'PROGRESS', key: 'P'},
-                      {name: 'CLOSE', key: 'C'}];
+  selectedProject?: any;
 
-  constructor(private projectService: ProjectService) {
-  }
+  projectStatusList: any[] = [
+    { name: 'OPEN', key: 'O' },
+    { name: 'PROGRESS', key: 'P' },
+    { name: 'CLOSE', key: 'C' },
+  ];
+
+  constructor(private projectService: ProjectService, private menuService: MenuService) {}
 
   ngOnInit(): void {
     this.selectedStatus = this.projectStatusList[0];
@@ -51,7 +55,7 @@ export class ProjectsComponent implements OnInit {
         // });
       } else {
         this.project.id = this.createId();
-        this.project.projectNo = "PRO00001";
+        this.project.projectNo = 'PRO00001';
         this.project.createdDate = new Date();
         this.project.status = this.selectedStatus['name'];
         this.projects.push(this.project);
@@ -82,7 +86,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProduct(project: Project) {
-    this.project = {...project};
+    this.project = { ...project };
     this.projectDialog = true;
-}
+  }
+
+  selectProject(selectedProject: string){
+    this.menuService.setSelectedProject(selectedProject);
+  }
+
+
+
 }

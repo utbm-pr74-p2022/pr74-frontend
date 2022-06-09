@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth.guard';
 import { BacklogComponent } from './backlog/backlog.component';
 import { BoardComponent } from './board/board.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { ProjectsComponent } from './projects/projects.component';
+import { AuthGuard } from './services/auth.guard';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
