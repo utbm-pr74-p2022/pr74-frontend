@@ -6,7 +6,7 @@ import { delay, Observable, of, tap } from "rxjs";
 })
 export class AuthService {
 
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = true;
   login(username: string, password: string): Observable<boolean>{
     const isLoggedIn = (username == 'test' && password == 'test');
 
