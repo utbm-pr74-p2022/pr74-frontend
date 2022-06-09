@@ -1,4 +1,5 @@
-<div class="flex flex-row w-screen">
+<p-toast></p-toast>
+<div class="flex flex-row overflow-x-auto">
   <div class="card h-screen flex flex-grow-1 flex-column align-items-center py-4">
     <p-toolbar styleClass="mb-4">
       <ng-template pTemplate="left">
@@ -11,9 +12,6 @@
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-            <th id="head" style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
             <th id="id" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
             <th id="projectNo" pSortableColumn="projectNo">Project No. <p-sortIcon field="projectNo"></p-sortIcon></th>
             <th id="title" pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
@@ -24,17 +22,14 @@
     </ng-template>
     <ng-template pTemplate="body" let-project>
             <tr>
-                <td>
-                    <p-tableCheckbox [value]="project"></p-tableCheckbox>
-                </td>
                 <td>{{project.id}}</td>
                 <td>{{project.projectNo}}</td>
                 <td>{{project.title}}</td>
                 <td>{{project.createdDate}}</td>
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
-                    <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(project)"></button> -->
-                    <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button> -->
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(project)"></button>
+                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-mr-2" (click)="selectProject(project.title)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -48,17 +43,19 @@
 </div>
 
 
-<p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" header="Create a new project" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>
           <input type="text" pInputText id="name" [(ngModel)]="project.title" required autofocus />
           <small class="p-invalid" *ngIf="submitted && !project.title">Title is required.</small>
       </div>
+      <br/>
       <div class="p-field">
-        <!-- <p-multiSelect [options]="status" [(ngModel)]="selectedStatus" optionLabel="status"></p-multiSelect> -->
-        <p-multiSelect appendTo="body" [options]="cities" [(ngModel)]="selectedCities1" defaultLabel="Select a City" optionLabel="name">
-        </p-multiSelect>
+        <div *ngFor="let status of projectStatusList" class="p-field-checkbox">
+          <p-radioButton [inputId]="status.key" name="category" [value]="status" [(ngModel)]="selectedStatus"></p-radioButton>
+          <label [for]="status.key">{{status.name}}</label>
+        </div>
       </div>
       <!-- <div class="p-field">
           <label for="description">Description</label>
