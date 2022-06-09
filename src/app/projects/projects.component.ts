@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
@@ -7,6 +8,7 @@ import { ProjectService } from '../services/project.service';
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
+  providers: [MessageService]
 })
 export class ProjectsComponent implements OnInit {
   projectDialog!: boolean;
@@ -27,7 +29,10 @@ export class ProjectsComponent implements OnInit {
     { name: 'CLOSE', key: 'C' },
   ];
 
-  constructor(private projectService: ProjectService, private menuService: MenuService) {}
+  constructor(private projectService: ProjectService,
+    private menuService: MenuService,
+    private messageService: MessageService
+    ) {}
 
   ngOnInit(): void {
     this.selectedStatus = this.projectStatusList[0];
@@ -47,12 +52,12 @@ export class ProjectsComponent implements OnInit {
       if (this.project.id) {
         this.project.status = this.selectedStatus['name'];
         this.projects[this.findIndexById(this.project.id)] = this.project;
-        // this.messageService.add({
-        //   severity: 'success',
-        //   summary: 'Successful',
-        //   detail: 'Product Updated',
-        //   life: 3000,
-        // });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Product Updated',
+          life: 3000,
+        });
       } else {
         this.project.id = this.createId();
         this.project.projectNo = 'PRO00001';
@@ -60,7 +65,7 @@ export class ProjectsComponent implements OnInit {
         this.project.status = this.selectedStatus['name'];
         this.projects.push(this.project);
 
-        // this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
       }
 
       this.projects = [...this.projects];
