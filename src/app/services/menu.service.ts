@@ -8,8 +8,6 @@ import { Project } from "../models/project.model";
 export class MenuService {
   private selectedProject = new Subject<string>();
 
-  constructor() { }
-
   setSelectedProject(selectedProject: string){
     this.selectedProject.next(selectedProject);
   }
