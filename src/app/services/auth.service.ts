@@ -33,11 +33,12 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean>{
     const isLoggedIn = (username == 'test' && password == 'test');
 
-    this.loginUser({email:username, firstName: username, lastName:username, roles: ['Scrum Master']});
-
     return of(isLoggedIn).pipe(
       delay(1000),
-      tap(isLoggedIn => this.isLoggedIn = isLoggedIn)
+      tap(isLoggedIn => {
+        this.isLoggedIn = isLoggedIn
+        this.loginUser({email:username, firstName: username, lastName:username, roles: ['Scrum Master']});
+      })
     );
 
     /*return new Promise<void>(

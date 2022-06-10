@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../services/auth.service';
@@ -14,8 +15,10 @@ export class ConnectionComponent implements OnInit {
   username!: string;
   password!: string;
   auth!: AuthService;
+  connectionForm!: FormGroup;
 
   constructor(
+    private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
@@ -23,11 +26,25 @@ export class ConnectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth = this.authService;
+    this.initForm();
+  }
+
+  initForm()
+  {
+    this.connectionForm = this.formBuilder.group(
+      {
+        username: ['', [Validators.required]],
+        password: ['', [Validators.required]]
+      }
+    )
   }
 
   login() {
+    const username = this.connectionForm.get('username')!.value;
+    const password = this.connectionForm.get('password')!.value;
+
     this.authService
-      .login(this.username, this.password)
+      .login(username, password)
       .subscribe((isLoggedIn: boolean) => {
         if (isLoggedIn) {
           this.router.navigate(['/projects']);
