@@ -4,7 +4,6 @@ import { MenuItem } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
-import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -20,8 +19,7 @@ export class MenuComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private projectService: ProjectService,
-    private menuService: MenuService
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
@@ -34,7 +32,6 @@ export class MenuComponent implements OnInit {
     {
       this.selectedProject = p;
     });
-
     this.items = [
       {
         label: 'Navigation Bar',

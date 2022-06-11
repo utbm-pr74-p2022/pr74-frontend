@@ -4,6 +4,8 @@ import { User } from "../models/user.model";
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { TokenStorageService } from "./token-storage.service";
+import { ProjectService } from "./project.service";
+import { Project } from "../models/project.model";
 
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
@@ -21,7 +23,7 @@ export class AuthService {
 
   isLoggedIn: boolean = false;
 
-  constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
+  constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private projectService: ProjectService) {
     this.currentUserSubject = new BehaviorSubject<User>(null!);
     this.currentUser = this.currentUserSubject.asObservable();
     this.jwtHelper = new JwtHelperService();
@@ -59,6 +61,7 @@ export class AuthService {
   logout(){
     this.isLoggedIn = false;
     this.currentUserSubject.next(null!);
+    this.projectService.setSelectedProject({} as Project);
     this.tokenStorage.signOut();
   }
 
