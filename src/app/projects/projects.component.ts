@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
-import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -30,7 +29,6 @@ export class ProjectsComponent implements OnInit {
   ];
 
   constructor(private projectService: ProjectService,
-    private menuService: MenuService,
     private messageService: MessageService
     ) {}
 
@@ -95,10 +93,7 @@ export class ProjectsComponent implements OnInit {
     this.projectDialog = true;
   }
 
-  selectProject(selectedProject: string){
-    this.menuService.setSelectedProject(selectedProject);
+  selectProject(selectedProject: Project){
+    this.projectService.setSelectedProject(selectedProject);
   }
-
-
-
 }
