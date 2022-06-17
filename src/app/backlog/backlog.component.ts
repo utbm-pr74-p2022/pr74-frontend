@@ -3,9 +3,9 @@ import { MessageService } from 'primeng/api';
 import { Sprint } from '../models/sprint.model';
 import { Task } from '../models/task.model';
 import { BacklogService } from '../services/backlog.service';
-import { MenuService } from '../services/menu.service';
 import { TaskService } from '../services/task.service';
 import { Project } from '../models/project.model';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-backlog',
