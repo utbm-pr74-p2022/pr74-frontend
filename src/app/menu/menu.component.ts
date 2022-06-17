@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { Project } from '../models/project.model';
+import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
-import { MenuService } from '../services/menu.service';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -12,20 +13,24 @@ import { ProjectService } from '../services/project.service';
 })
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
-  auth!: AuthService;
-  selectedProjectt?: string;
+  auth!: User;
+  selectedProject!: Project;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private projectService: ProjectService,
-    private menuService: MenuService
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
-    this.auth = this.authService;
-    this.menuService.getSelectedProject().subscribe((d) =>{
-      this.selectedProjectt = d.title;
+    this.authService.currentUser.subscribe(x =>
+    {
+      this.auth = x;
+    });
+
+    this.projectService.currentProject.subscribe(p =>
+    {
+      this.selectedProject = p;
     });
     this.items = [
       {
@@ -40,10 +45,8 @@ export class MenuComponent implements OnInit {
     ];
   }
 
-
-
   logout(){
-    this.auth.logout();
+    this.authService.logout();
     this.router.navigate(['/']);
   }
 }

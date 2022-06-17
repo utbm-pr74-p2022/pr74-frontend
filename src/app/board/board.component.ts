@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Condition } from '../models/condition.model';
 import { Task } from '../models/task.model';
+import { ConditionService } from '../services/condition.service';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-board',
@@ -9,11 +11,16 @@ import { Task } from '../models/task.model';
 })
 export class BoardComponent {
 
-  conditions: Condition[] = [new Condition(1, "A faire"), new Condition(2, "En cours"), new Condition(3, "Terminé")];
+  conditions: Condition[];
 
-  tasks: Task[] = [new Task(1, "create project", 1, [1, 5]), new Task(2, "create menu", 1, [2, 3, 9, 12]), new Task(3, "implement board", 1, [1, 7, 5]), new Task(4, "create task", 1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])];
+  tasks: Task[];
 
-  draggedTask: Task | undefined;
+  draggedTask!: Task;
+
+  constructor(private taskService: TaskService, private conditionService: ConditionService) {
+    this.conditions = this.conditionService.getConditions();
+    this.tasks = this.taskService.getTasks();
+  }
 
   dragStart(task: Task) {
       this.draggedTask = task;
@@ -22,11 +29,12 @@ export class BoardComponent {
   drop(id: number) {
       if (this.draggedTask) {
         this.draggedTask.idCondition = id;
-        this.draggedTask = undefined;
+        this.taskService.updateTask(this.draggedTask);
+        this.draggedTask = null!;
       }
   }
 
   dragEnd() {
-      this.draggedTask = undefined;
+      this.draggedTask = null!;
   }
 }

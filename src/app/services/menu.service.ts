@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { Project } from "../models/project.model";
 
 @Injectable({
   providedIn: "root",
 })
 export class MenuService {
+<<<<<<< HEAD
   private selectedProject = new Subject<Project>();
 
   setSelectedProject(selectedProject: Project){
@@ -16,4 +15,6 @@ export class MenuService {
     return this.selectedProject.asObservable();
   }
 
+=======
+>>>>>>> d183455594b4c0620f42f2ac776a88d90ba2655a
 }

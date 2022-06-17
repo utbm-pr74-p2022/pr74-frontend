@@ -14,7 +14,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
@@ -58,7 +58,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     DialogModule,
     MultiSelectModule,
     DragDropModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

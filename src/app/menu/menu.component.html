@@ -1,19 +1,19 @@
-<div *ngIf="auth.isLoggedIn" class="flex flex-column h-screen p-4 fadein animation-duration-500">
+<div *ngIf="auth" class="flex flex-column h-screen p-4 fadein animation-duration-500 w-17rem">
   <div class="shadow-2 card flex flex-row surface-0 border-round justify-content-center align-items-center py-3">
     <p-avatar styleClass="mx-2 h-auto" image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg"></p-avatar>
     <div class="flex flex-column">
       <div class="text-lg font-semibold">
-        <p-header>Mister Potatoes</p-header>
+        <p-header>{{auth.firstName}} {{auth.lastName}}</p-header>
       </div>
       <div>
-        <p-header>Scrum Master</p-header>
+        <p-header>{{auth.roles}}</p-header>
       </div>
     </div>
   </div>
   <br />
   <p-menu styleClass="w-auto shadow-2 flex flex-column justify-content-end" [model]="items"></p-menu>
   <div class="h-screen flex flex-column justify-content-end align-items-center">
-    <p-footer class="shadow-2 border-round px-6 py-3 my-2">{{selectedProjectt}}</p-footer>
-    <p-button class="shadow-2 border-round bg-primary" (onClick)="logout()" *ngIf="auth.isLoggedIn">Disconnect</p-button>
+    <p-footer class="shadow-2 border-round px-6 py-3 my-2">{{selectedProject.title}}</p-footer>
+    <p-button class="shadow-2 border-round bg-primary" (onClick)="logout()" *ngIf="auth">Disconnect</p-button>
   </div>
 </div>
