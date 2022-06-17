@@ -95,7 +95,7 @@ export class ProjectsComponent implements OnInit {
     this.projectDialog = true;
   }
 
-  selectProject(selectedProject: string){
+  selectProject(selectedProject: Project){
     this.menuService.setSelectedProject(selectedProject);
   }
 

@@ -13,7 +13,7 @@ import { ProjectService } from '../services/project.service';
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
   auth!: AuthService;
-  selectedProjectt!: string;
+  selectedProjectt?: string;
 
   constructor(
     private router: Router,
@@ -25,7 +25,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.auth = this.authService;
     this.menuService.getSelectedProject().subscribe((d) =>{
-      this.selectedProjectt = d;
+      this.selectedProjectt = d.title;
     });
     this.items = [
       {

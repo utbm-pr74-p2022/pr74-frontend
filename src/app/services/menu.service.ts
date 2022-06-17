@@ -6,9 +6,9 @@ import { Project } from "../models/project.model";
   providedIn: "root",
 })
 export class MenuService {
-  private selectedProject = new Subject<string>();
+  private selectedProject = new Subject<Project>();
 
-  setSelectedProject(selectedProject: string){
+  setSelectedProject(selectedProject: Project){
     this.selectedProject.next(selectedProject);
   }
 
