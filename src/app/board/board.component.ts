@@ -19,7 +19,7 @@ export class BoardComponent {
 
   constructor(private taskService: TaskService, private conditionService: ConditionService) {
     this.conditions = this.conditionService.getConditions();
-    this.tasks = this.taskService.getTasks();
+    this.tasks = this.taskService.getAllTasks();
   }
 
   dragStart(task: Task) {
