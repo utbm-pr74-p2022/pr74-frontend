@@ -5,6 +5,7 @@ import { Task } from '../models/task.model';
 import { BacklogService } from '../services/backlog.service';
 import { MenuService } from '../services/menu.service';
 import { TaskService } from '../services/task.service';
+import { Project } from '../models/project.model';
 
 @Component({
   selector: 'app-backlog',
@@ -23,7 +24,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
   sprint!: Sprint;
   task!: Task;
 
-  selectedProjectId?: number;
+  selectedProject?: Project;
 
   submittedSprint!: boolean;
   submittedTask!: boolean;
@@ -39,16 +40,16 @@ export class BacklogComponent implements OnInit, OnDestroy {
   constructor(private backlogService: BacklogService,
     private taskService: TaskService,
     private messageService: MessageService,
-    private menuService: MenuService
+    private projectService: ProjectService
     ) { }
 
   ngOnInit(): void {
     this.selectedSprintStatus = this.sprintStatusList[0];
     this.backlogService.getSprints().then((data) => (this.sprints = data));
     this.taskService.getTasks().then((data) => (this.tasks = data));
-    const test = this.menuService.getSelectedProject().subscribe((d) =>{
-      this.selectedProjectId = d.id;
-      console.log(this.selectedProjectId);
+    this.projectService.currentProject.subscribe(p =>
+    {
+      this.selectedProject = p;
     });
   }
 
