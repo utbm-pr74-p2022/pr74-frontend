@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { ProjectService } from '../services/project.service';
@@ -12,15 +13,13 @@ import { ProjectService } from '../services/project.service';
 export class ProjectsComponent implements OnInit {
   projectDialog!: boolean;
 
-  projects!: Project[];
-
-  project!: Project;
-
-  submitted!: boolean;
-
-  selectedStatus: any = null;
+  projects: Project[] = [];
 
   selectedProject?: any;
+
+  projectForm!: FormGroup;
+
+  project?: Project | null;
 
   projectStatusList: any[] = [
     { name: 'OPEN', key: 'O' },
@@ -29,67 +28,66 @@ export class ProjectsComponent implements OnInit {
   ];
 
   constructor(private projectService: ProjectService,
-    private messageService: MessageService
-    ) {}
+    private messageService: MessageService,
+    private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.selectedStatus = this.projectStatusList[0];
-    this.projectService.getProjects().then((data) => (this.projects = data));
+    this.projectService.getAll().subscribe(
+      (data :any) => {
+        data._embedded.projects.forEach((d: any) => {
+            this.projects.push(new Project(d.id, d.name, d.date, d.status));
+          })
+      });
+    this.initForm();
+  }
+
+  initForm()
+  {
+    this.projectForm = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]]
+      }
+    )
   }
 
   openNew() {
-    this.project = {};
-    this.submitted = false;
     this.projectDialog = true;
   }
 
   saveProduct() {
-    this.submitted = true;
+    const name = this.projectForm.get('name')!.value;
 
-    if (this.project.title) {
-      if (this.project.id) {
-        this.project.status = this.selectedStatus['name'];
-        this.projects[this.findIndexById(this.project.id)] = this.project;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Updated',
-          life: 3000,
-        });
-      } else {
-        this.project.id = this.createId();
-        this.project.projectNo = 'PRO00001';
-        this.project.createdDate = new Date();
-        this.project.status = this.selectedStatus['name'];
-        this.projects.push(this.project);
-
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-      }
-
-      this.projects = [...this.projects];
-      this.projectDialog = false;
-      this.project = {};
+    if (this.project == null) {
+      this.projectService.save(new Project(null, name, null, null)).subscribe(
+        (data: any) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Project created successfully'
+          });
+          this.projectDialog = false;
+          this.projects.push(new Project(data.id as number, data.name as string, data.date, data.status));
+        }
+      );
     }
-  }
-
-  findIndexById(id: number): number {
-    let index = -1;
-    for (let i = 0; i < this.projects.length; i++) {
-      if (this.projects[i].id === id) {
-        index = i;
-        break;
-      }
+    else {
+      this.projectService.update(this.project.id as number, this.project).subscribe(
+        (data: any) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Project updated successfully'
+          });
+          this.projectDialog = false;
+          this.selectedProject.name = data.name;
+      });
     }
-
-    return index;
-  }
-
-  createId(): number {
-    return Math.floor(Math.random() * Math.floor(299) + 1);
+    this.project = null;
   }
 
   editProduct(project: Project) {
-    this.project = { ...project };
+    this.project = project;
+    this.projectForm.get('name')!.setValue(project.name);
     this.projectDialog = true;
   }
 

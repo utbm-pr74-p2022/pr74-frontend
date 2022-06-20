@@ -43,7 +43,7 @@ export class ConnectionComponent implements OnInit {
     const username = this.connectionForm.get('username')!.value;
     const password = this.connectionForm.get('password')!.value;
 
-    this.authService
+    /*this.authService
       .login(username, password)
       .subscribe((isLoggedIn: boolean) => {
         if (isLoggedIn) {
@@ -53,7 +53,18 @@ export class ConnectionComponent implements OnInit {
           this.password = '';
           this.router.navigate(['/']);
         }
-      });
+      });*/
+
+      this.authService.login(username, password).then(
+        () => {
+          this.router.navigate(['/projects']);
+        },
+        (error) => {
+          this.showFailedConnection();
+          this.password = '';
+          this.router.navigate(['/']);
+        }
+      );
   }
 
   showFailedConnection() {

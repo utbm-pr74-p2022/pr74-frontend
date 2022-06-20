@@ -1,13 +1,9 @@
 export class User {
-  firstName: string;
-  lastName: string;
-  email: string;
+  username: string;
   roles: string[];
 
-  constructor(email: string, firstName: string, lastName: string, roles: string[]) {
-    this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
+  constructor(username: string, roles: string[]) {
+    this.username = username;
     this.roles = roles;
   }
 }

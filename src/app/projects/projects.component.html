@@ -12,8 +12,6 @@
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-            <th id="id" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
-            <th id="projectNo" pSortableColumn="projectNo">Project No. <p-sortIcon field="projectNo"></p-sortIcon></th>
             <th id="title" pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
             <th id="createdDate" pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon></th>
             <th id="status" pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
@@ -22,9 +20,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-project>
             <tr>
-                <td>{{project.id}}</td>
-                <td>{{project.projectNo}}</td>
-                <td>{{project.title}}</td>
+                <td>{{project.name}}</td>
                 <td>{{project.createdDate}}</td>
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
@@ -42,64 +38,20 @@
   </div>
 </div>
 
-
-<p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" header="Create a new project" [modal]="true" styleClass="p-fluid">
-  <ng-template pTemplate="content">
+<form [formGroup]="projectForm" (ngSubmit)="saveProduct()">
+  <p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" header="Create a new project" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>
-          <input type="text" pInputText id="name" [(ngModel)]="project.title" required autofocus />
-          <small class="p-invalid" *ngIf="submitted && !project.title">Title is required.</small>
+          <input type="text" pInputText id="name" formControlName="name" required autofocus />
       </div>
       <br/>
-      <div class="p-field">
-        <div *ngFor="let status of projectStatusList" class="p-field-checkbox">
-          <p-radioButton [inputId]="status.key" name="category" [value]="status" [(ngModel)]="selectedStatus"></p-radioButton>
-          <label [for]="status.key">{{status.name}}</label>
-        </div>
-      </div>
-      <!-- <div class="p-field">
-          <label for="description">Description</label>
-          <textarea id="description" pInputTextarea [(ngModel)]="project.description" required rows="3" cols="20"></textarea>
-      </div> -->
+    </ng-template>
 
-      <!-- <div class="p-field">
-          <label class="p-mb-3">Category</label>
-          <div class="p-formgrid p-grid">
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category1">Accessories</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category2">Clothing</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category3">Electronics</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category4">Fitness</label>
-              </div>
-          </div>
-      </div> -->
-
-      <!-- <div class="p-formgrid p-grid">
-          <div class="p-field p-col">
-              <label for="price">Price</label>
-              <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-          </div>
-          <div class="p-field p-col">
-              <label for="quantity">Quantity</label>
-              <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
-          </div>
-      </div> -->
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-      <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> -->
-      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
-  </ng-template>
-</p-dialog>
-
+    <ng-template pTemplate="footer">
+        <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> -->
+        <button pButton pRipple type="submit" label="Save" icon="pi pi-check" class="p-button-text" [disabled]="projectForm.invalid"></button>
+    </ng-template>
+  </p-dialog>
+</form>
 <!-- <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog> -->

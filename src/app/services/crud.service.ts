@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const API_URL = 'http://localhost:8080/api/';
+const API_URL = 'http://localhost:9000/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -21,7 +21,7 @@ export abstract class CrudService<T, ID> {
     return this._http.get<T>(API_URL + this._base + "/" + id);
   }
 
-  findAll(): Observable<T[]> {
+  getAll(): Observable<T[]> {
     return this._http.get<T[]>(API_URL + this._base, httpOptions)
   }
 

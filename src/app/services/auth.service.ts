@@ -8,7 +8,7 @@ import { ProjectService } from "./project.service";
 import { Project } from "../models/project.model";
 
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
+const AUTH_API = 'http://localhost:9000/login/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -24,7 +24,7 @@ export class AuthService {
   isLoggedIn: boolean = false;
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private projectService: ProjectService) {
-    this.currentUserSubject = new BehaviorSubject<User>(null!);
+    this.currentUserSubject = new BehaviorSubject<User>({} as User);
     this.currentUser = this.currentUserSubject.asObservable();
     this.jwtHelper = new JwtHelperService();
     if (this.isAuthenticated()) {
@@ -32,20 +32,10 @@ export class AuthService {
     }
   }
 
-  login(username: string, password: string): Observable<boolean>{
-    const isLoggedIn = (username == 'test' && password == 'test');
-
-    return of(isLoggedIn).pipe(
-      delay(1000),
-      tap(isLoggedIn => {
-        this.isLoggedIn = isLoggedIn
-        this.loginUser({email:username, firstName: username, lastName:username, roles: ['Scrum Master']});
-      })
-    );
-
-    /*return new Promise<void>(
+  login(username: string, password: string){
+    return new Promise<void>(
       (resolve, reject) => {
-        this.http.post(AUTH_API + "signin", { username: email, password: password }, httpOptions).subscribe(
+        this.http.post(AUTH_API, { username: username, password: password }, httpOptions).subscribe(
           data => {
             this.loginUser(data);
             resolve();
@@ -55,28 +45,26 @@ export class AuthService {
           }
         )
       }
-    );*/
+    );
   }
 
   logout(){
     this.isLoggedIn = false;
-    this.currentUserSubject.next(null!);
+    this.currentUserSubject.next({} as User);
     this.projectService.setSelectedProject({} as Project);
     this.tokenStorage.signOut();
   }
 
   loginUser(data: any) {
-    let user = new User(data.email, data.firstName, data.lastName, data.roles);
-    //this.tokenStorage.saveToken(data.accessToken);
+    let user = new User(data.username, data.roles);
+    this.tokenStorage.saveToken(data.token);
     this.tokenStorage.saveUser(user);
     this.currentUserSubject.next(user);
   }
 
   public isAuthenticated(): boolean {
-    //let token = this.tokenStorage.getToken();
-    //return !this.jwtHelper.isTokenExpired(token!);
-    let user = this.tokenStorage.getUser();
-    return user;
+    let token = this.tokenStorage.getToken();
+    return !this.jwtHelper.isTokenExpired(token!);
   }
 
   getToken(): string | null {

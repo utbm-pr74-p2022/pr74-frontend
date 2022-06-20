@@ -1,14 +1,15 @@
-export class Project {
-  id?: number;
-  projectNo?: string;
-  title?: string;
-  createdDate?: Date;
-  status?:string;
+import { Sprint } from "./sprint.model";
+import { User } from "./user.model";
 
-  constructor(id: number, projectNo: string, title: string, createdDate: Date, status: string) {
+export class Project {
+  id?: number | null;
+  name?: string;
+  createdDate?: string | null;
+  status?:string | null;
+
+  constructor(id: number | null, name: string, createdDate: string | null, status: string | null) {
     this.id = id;
-    this.projectNo = projectNo;
-    this.title = title;
+    this.name = name;
     this.createdDate = createdDate;
     this.status = status;
   }

@@ -26,6 +26,7 @@ import { ConnectionComponent } from './connection/connection.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { DragDropModule } from 'primeng/dragdrop';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import { httpInterceptorProviders } from './interceptors';
 
 
 @NgModule({
@@ -61,7 +62,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     RadioButtonModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

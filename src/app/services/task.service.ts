@@ -17,7 +17,7 @@ export class TaskService extends CrudService<Task, number> {
   ];
 
   constructor(protected http: HttpClient) {
-    super(http, `tasks`);
+    super(http, `task`);
   }
   getTasks() {
     return this.http
