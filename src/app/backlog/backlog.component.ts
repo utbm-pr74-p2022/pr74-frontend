@@ -13,13 +13,13 @@ import { ProjectService } from '../services/project.service';
   styleUrls: ['./backlog.component.scss'],
   providers: [MessageService]
 })
-export class BacklogComponent implements OnInit, OnDestroy {
+export class BacklogComponent implements OnInit {
 
   sprintDialog!: boolean;
   taskDialog!: boolean;
 
-  sprints!: Sprint[];
-  tasks!: Task[];
+  sprints: Sprint[] = [];
+  tasks: Task[] = [];
 
   sprint!: Sprint;
   task!: Task;
@@ -53,9 +53,6 @@ export class BacklogComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-  }
-
   openNewSprint() {
     this.sprint = {};
     this.submittedSprint = false;
@@ -83,9 +80,9 @@ export class BacklogComponent implements OnInit, OnDestroy {
         });
       } else {
         this.sprint.id = this.createId();
-        this.sprint.sprintNo = 'SPR00001';
-        this.sprint.dateFrom = new Date();
-        this.sprint.dateTo = new Date();
+        this.sprint.description = 'SPR00001';
+        this.sprint.startDate = new Date();
+        this.sprint.endDate = new Date();
         this.sprint.status = this.selectedSprintStatus['name'];
         this.sprints.push(this.sprint);
 

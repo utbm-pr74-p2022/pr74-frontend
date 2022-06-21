@@ -1,8 +1,8 @@
 export interface Sprint {
   id?: number;
-  sprintNo?: string;
   name?: string;
-  dateFrom?: Date;
-  dateTo?: Date;
+  description?: string;
+  startDate?: Date;
+  endDate?: Date;
   status?:string;
 }

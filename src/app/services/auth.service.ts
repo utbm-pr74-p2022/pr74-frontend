@@ -56,7 +56,7 @@ export class AuthService {
   }
 
   loginUser(data: any) {
-    let user = new User(data.username, data.roles);
+    let user = new User(data.username, data.role);
     this.tokenStorage.saveToken(data.token);
     this.tokenStorage.saveUser(user);
     this.currentUserSubject.next(user);

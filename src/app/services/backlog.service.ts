@@ -29,10 +29,10 @@ export class BacklogService {
     generateSprint(): Sprint {
       const sprint: Sprint =  {
           id: this.generateId(),
-          sprintNo: "SPR00001",
+          description: "SPR00001",
           name: this.generateTitle(),
-          dateFrom: new Date(),
-          dateTo: new Date(),
+          startDate: new Date(),
+          endDate: new Date(),
           status: this.generateStatus()
       };
 

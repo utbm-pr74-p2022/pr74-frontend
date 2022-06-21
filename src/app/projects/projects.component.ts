@@ -12,20 +12,10 @@ import { ProjectService } from '../services/project.service';
 })
 export class ProjectsComponent implements OnInit {
   projectDialog!: boolean;
-
   projects: Project[] = [];
-
   selectedProject?: any;
-
   projectForm!: FormGroup;
-
   project?: Project | null;
-
-  projectStatusList: any[] = [
-    { name: 'OPEN', key: 'O' },
-    { name: 'PROGRESS', key: 'P' },
-    { name: 'CLOSE', key: 'C' },
-  ];
 
   constructor(private projectService: ProjectService,
     private messageService: MessageService,
@@ -66,7 +56,7 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project created successfully'
           });
           this.projectDialog = false;
-          this.projects.push(new Project(data.id as number, data.name as string, data.date, data.status));
+          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status)];
         }
       );
     }
@@ -79,8 +69,8 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project updated successfully'
           });
           this.projectDialog = false;
-          this.selectedProject.name = data.name;
-      });
+          this.projects.find(p => p.id === this.project!.id)!.name = data.name;
+        });
     }
     this.project = null;
   }

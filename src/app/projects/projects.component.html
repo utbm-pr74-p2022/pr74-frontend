@@ -7,7 +7,7 @@
           (click)="openNew()"></button>
       </ng-template>
     </p-toolbar>
-    <p-table class="w-full" #dt [value]="projects" [rows]="10" [paginator]="true"
+    <p-table *ngIf="projects.length != 0" class="w-full" #dt [value]="projects" [rows]="10" [paginator]="true"
       [globalFilterFields]="['name','country.name','representative.name','status']" [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
@@ -47,11 +47,8 @@
       </div>
       <br/>
     </ng-template>
-
     <ng-template pTemplate="footer">
-        <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> -->
         <button pButton pRipple type="submit" label="Save" icon="pi pi-check" class="p-button-text" [disabled]="projectForm.invalid"></button>
     </ng-template>
   </p-dialog>
 </form>
-<!-- <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog> -->
