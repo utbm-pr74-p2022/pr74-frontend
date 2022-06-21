@@ -7,6 +7,9 @@ import { ProjectService } from '../services/project.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SprintService } from '../services/sprint.service';
 import { DatePipe } from '@angular/common';
+import { TaskService } from '../services/task.service';
+import { Backlog } from '../models/backlog.model';
+import { Priority } from '../models/priority.model';
 
 @Component({
   selector: 'app-backlog',
@@ -27,8 +30,8 @@ export class BacklogComponent implements OnInit {
 
   selectedProject?: Project;
 
-  submittedSprint!: boolean;
-  submittedTask!: boolean;
+  backlogid: number = 0;
+  priorities: Priority[] = [];
 
   selectedSprintStatus: any = null;
 
@@ -38,6 +41,7 @@ export class BacklogComponent implements OnInit {
   constructor(private messageService: MessageService,
     private projectService: ProjectService,
     private sprintService: SprintService,
+    private taskService: TaskService,
     private formBuilder: FormBuilder,
     public datepipe: DatePipe) { }
 
@@ -54,6 +58,8 @@ export class BacklogComponent implements OnInit {
             s.status = this.getStatus(s.startDate as string, s.endDate as string);
           });
           this.tasks = data.backlog.tasks._embedded.tasks;
+          this.backlogid = data.backlog.id;
+          this.priorities = data.priorities._embedded.priorities;
         });
       }
     });
@@ -73,17 +79,26 @@ export class BacklogComponent implements OnInit {
     )
     this.taskForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required]]
+        name: ['', [Validators.required]],
+        priority: ['', [Validators.required]]
       }
     )
   }
 
   openNewSprint() {
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 7);
     this.sprint = null;
+    this.sprintForm.get('name')!.setValue('');
+    this.sprintForm.get('startDate')!.setValue(new Date());
+    this.sprintForm.get('endDate')!.setValue(endDate);
     this.sprintDialog = true;
   }
 
   openNewTask() {
+    this.task = null;
+    this.taskForm.get('name')!.setValue('')
+    this.taskForm.get('priority')!.setValue(this.priorities[0])
     this.taskDialog = true;
   }
 
@@ -119,15 +134,40 @@ export class BacklogComponent implements OnInit {
       this.sprint.project = this.selectedProject;
 
       this.sprintService.update(this.sprint.id as number, this.sprint).subscribe(
+      (data: any) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Sprint updated successfully'
+        });
+        this.sprintDialog = false;
+        this.sprints.find(p => p.id === this.sprint!.id)!.name = data.name;
+        this.sprints.find(p => p.id === this.sprint!.id)!.status = this.getStatus(data.startDate, data.endDate);
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error updating sprint'
+        });
+      });
+    }
+  }
+
+  saveTask() {
+    const name = this.taskForm.get('name')!.value;
+    const priority = this.taskForm.get('priority')!.value;
+
+    if (this.task == null) {
+      this.taskService.save(new Task(null, name, priority, null, null, new Backlog(this.backlogid, this.tasks))).subscribe(
         (data: any) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Sprint updated successfully'
+            detail: 'Sprint created successfully'
           });
           this.sprintDialog = false;
-          this.sprints.find(p => p.id === this.sprint!.id)!.name = data.name;
-          this.sprints.find(p => p.id === this.sprint!.id)!.status = this.getStatus(data.startDate, data.endDate);
+          this.sprints = [...this.sprints, new Sprint(data.id, data.name, data.description, data.startDate, data.endDate, this.getStatus(data.startDate, data.endDate), this.selectedProject)];
         },
         error => {
           this.messageService.add({
@@ -135,11 +175,32 @@ export class BacklogComponent implements OnInit {
             summary: 'Error',
             detail: 'Error creating sprint'
           });
-        });
+        }
+      );
     }
-  }
+    else {
+      this.task.name = name;
+      this.task.priority = priority;
 
-  saveTask() { }
+      this.taskService.update(this.task.id as number, this.task).subscribe(
+      (data: any) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Sprint updated successfully'
+        });
+        this.taskDialog = false;
+        this.tasks.find(p => p.id === this.sprint!.id)!.name = data.name;
+        },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error updating sprint'
+        });
+      });
+    }
+   }
 
   getStatus(startDate: string, endDate: string) {
     return new Date(endDate) < new Date() ? 'CLOSE' : new Date(startDate) > new Date() ? 'OPEN' : 'PROGRESS';
@@ -156,6 +217,7 @@ export class BacklogComponent implements OnInit {
   editTask(task: Task) {
     this.task = task;
     this.taskForm.get('name')!.setValue(task.name);
+    this.taskForm.get('priority')!.setValue(task.priority);
     this.taskDialog = true;
   }
 

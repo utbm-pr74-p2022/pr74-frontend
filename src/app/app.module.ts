@@ -29,6 +29,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import { httpInterceptorProviders } from './interceptors';
 import {CalendarModule} from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { DatePipe } from '@angular/common';
     DragDropModule,
     RadioButtonModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    DropdownModule
   ],
   providers: [httpInterceptorProviders, DatePipe],
   bootstrap: [AppComponent]

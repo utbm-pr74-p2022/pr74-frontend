@@ -10,7 +10,7 @@
           <p-avatarGroup class="absolute right-0 mr-5">
             <ng-container *ngFor="let assigned of task.idsAssigned; let i = index">
               <p-avatar image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg" shape="circle" *ngIf="i<3"></p-avatar>
-              <p-avatar label="+{{task.idsAssigned.length-3}}" shape="circle" [style]="{'background-color':'#9c27b0', 'color': '#ffffff'}" *ngIf="i==3"></p-avatar>
+              <p-avatar label="+{{task.idsAssigned!.length-3}}" shape="circle" [style]="{'background-color':'#9c27b0', 'color': '#ffffff'}" *ngIf="i==3"></p-avatar>
             </ng-container>
           </p-avatarGroup>
         </div>

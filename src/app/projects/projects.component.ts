@@ -60,8 +60,14 @@ export class ProjectsComponent implements OnInit {
           });
           this.projectDialog = false;
           this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status)];
-        }
-      );
+        },
+        error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error creating project'
+          });
+        });
     }
     else {
       this.project.name = name;
@@ -79,7 +85,7 @@ export class ProjectsComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error creating sprint'
+            detail: 'Error updating project'
           });
         });
     }
@@ -111,7 +117,7 @@ export class ProjectsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error creating sprint'
+          detail: 'Error deleting project'
         });
       });
   }
