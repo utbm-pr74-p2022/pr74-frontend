@@ -99,6 +99,8 @@
           <input type="text" pInputText id="name" formControlName="name" required autofocus />
           <br><br>
           <p-dropdown [options]="priorities" formControlName="priority"  optionLabel="name" appendTo="body"></p-dropdown>
+          <br>
+          <p-dropdown [options]="sprintsSelect" formControlName="sprint"  optionLabel="name" appendTo="body"></p-dropdown>
       </div>
       <br/>
     </ng-template>

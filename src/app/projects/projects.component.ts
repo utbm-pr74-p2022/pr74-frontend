@@ -103,7 +103,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   deleteProject(project: Project){
-    console.log(project.id)
     this.projectService.delete(project.id as number).subscribe(
       (data: any) => {
         this.messageService.add({
