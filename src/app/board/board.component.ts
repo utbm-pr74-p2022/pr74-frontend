@@ -13,13 +13,13 @@ export class BoardComponent {
 
   conditions: Condition[];
 
-  tasks: Task[];
+  tasks: Task[] = [];
 
   draggedTask!: Task;
 
   constructor(private taskService: TaskService, private conditionService: ConditionService) {
     this.conditions = this.conditionService.getConditions();
-    this.tasks = this.taskService.getAllTasks();
+    //this.tasks = this.taskService.getAllTasks();
   }
 
   dragStart(task: Task) {
@@ -29,7 +29,7 @@ export class BoardComponent {
   drop(id: number) {
       if (this.draggedTask) {
         this.draggedTask.idCondition = id;
-        this.taskService.updateTask(this.draggedTask);
+       // this.taskService.updateTask(this.draggedTask);
         this.draggedTask = null!;
       }
   }
