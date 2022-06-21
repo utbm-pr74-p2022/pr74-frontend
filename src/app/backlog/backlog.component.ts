@@ -121,7 +121,7 @@ export class BacklogComponent implements OnInit {
 
   editTask(task: Task) {
     this.titleForm = "Edit this task : " + task.name;
-    this.task = new Task(task.id, task.name, task.priority, task.idCondition, task.idsAssigned, task.backlog, task.sprint);
+    this.task = new Task(task.id, task.name, task.priority, task.idsAssigned, task.backlog, task.sprint, task.status);
     this.taskForm.reset();
     this.taskForm.get('name')!.setValue(task.name);
     this.taskForm.get('priority')!.setValue(task.priority);
@@ -211,7 +211,7 @@ export class BacklogComponent implements OnInit {
   }
 
   createTask(name: string, priority: Priority, backlog: Backlog | null, sprint: Sprint | null) {
-    this.taskService.save(new Task(null, name, priority, null, null, backlog, sprint)).subscribe(
+    this.taskService.save(new Task(null, name, priority, null, backlog, sprint, null)).subscribe(
       (data: any) => {
         this.messageService.add({
           severity: 'success',

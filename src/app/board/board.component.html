@@ -1,11 +1,11 @@
 <div class="flex flex-row h-screen p-4 fadein animation-duration-500" style="overflow-x:auto">
-  <div class="flex-1 flex flex-column shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" style="min-width: 25rem;" *ngFor="let condition of conditions">
+  <div class="flex-1 flex flex-column shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" style="min-width: 25rem;" *ngFor="let status of statuses">
     <div class="flex header justify-content-center align-items-center">
-      <p class="text-4xl font-semibold">{{condition.name}}</p>
+      <p class="text-4xl font-semibold">{{status.name}}</p>
     </div>
-    <div class="content" pDroppable="tasks" (onDrop)="drop(condition.id)" style="overflow-x:auto">
+    <div class="content" pDroppable="tasks" (onDrop)="drop(status.id)" style="overflow-x:auto">
       <div *ngFor="let task of tasks">
-        <div class="relative flex-1 flex flex-row shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" pDraggable="tasks" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngIf="task.idCondition == condition.id">
+        <div class="relative flex-1 flex flex-row shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" pDraggable="tasks" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngIf="task.status!.id == status.id">
           <p class="text-base">{{task.name}}</p>
           <p-avatarGroup class="absolute right-0 mr-5">
             <ng-container *ngFor="let assigned of task.idsAssigned; let i = index">
