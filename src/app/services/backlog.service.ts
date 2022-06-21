@@ -31,8 +31,8 @@ export class BacklogService {
           id: this.generateId(),
           description: "SPR00001",
           name: this.generateTitle(),
-          startDate: new Date(),
-          endDate: new Date(),
+          startDate: "",
+          endDate: "",
           status: this.generateStatus()
       };
 
