@@ -169,8 +169,8 @@ export class BacklogComponent implements OnInit {
             summary: 'Success',
             detail: 'Sprint created successfully'
           });
-          this.sprintDialog = false;
-          this.sprints = [...this.sprints, new Sprint(data.id, data.name, data.description, data.startDate, data.endDate, this.getStatus(data.startDate, data.endDate), this.selectedProject)];
+          this.taskDialog = false;
+          this.tasks = [...this.tasks, new Task(data.id, data.name, data.priority, null, null, new Backlog(this.backlogid, this.tasks))];
         },
         error => {
           this.messageService.add({
