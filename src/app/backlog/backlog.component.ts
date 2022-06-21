@@ -31,12 +31,6 @@ export class BacklogComponent implements OnInit {
 
   selectedSprintStatus: any = null;
 
-  sprintStatusList: any[] = [
-    { name: 'OPEN', key: 'O' },
-    { name: 'PROGRESS', key: 'P' },
-    { name: 'CLOSE', key: 'C' },
-  ];
-
   constructor(private messageService: MessageService,
     private projectService: ProjectService
     ) { }
@@ -50,11 +44,13 @@ export class BacklogComponent implements OnInit {
         this.projectService.findOne(this.selectedProject.id).subscribe(
         (data: any) => {
           this.sprints = data.sprints._embedded.sprints;
+          this.sprints.forEach(s => {
+            s.status = new Date(s.endDate as string) < new Date() ? 'CLOSE' : new Date(s.startDate as string) > new Date() ? 'OPEN' : 'PROGRESS';
+          });
           this.tasks = data.backlog.tasks._embedded.tasks;
         });
       }
     });
-    this.selectedSprintStatus = this.sprintStatusList[0];
   }
 
   openNewSprint() {
