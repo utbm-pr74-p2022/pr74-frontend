@@ -12,7 +12,7 @@
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-            <th id="title" pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+            <th id="name" pSortableColumn="name">Title <p-sortIcon field="name"></p-sortIcon></th>
             <th id="createdDate" pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon></th>
             <th id="status" pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
             <th id=""></th>
@@ -25,7 +25,8 @@
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)"></button>
-                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-mr-2" (click)="selectProject(project)"></button>
+                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="selectProject(project)"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject(project)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -39,7 +40,7 @@
 </div>
 
 <form [formGroup]="projectForm" (ngSubmit)="saveProduct()">
-  <p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" header="Create a new project" [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="projectDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>

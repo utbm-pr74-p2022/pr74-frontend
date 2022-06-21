@@ -16,6 +16,7 @@ export class ProjectsComponent implements OnInit {
   selectedProject?: any;
   projectForm!: FormGroup;
   project?: Project | null;
+  titleForm: string = "";
 
   constructor(private projectService: ProjectService,
     private messageService: MessageService,
@@ -41,6 +42,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   openNew() {
+    this.titleForm = "Create a new project";
     this.projectDialog = true;
   }
 
@@ -61,6 +63,7 @@ export class ProjectsComponent implements OnInit {
       );
     }
     else {
+      this.project.name = name;
       this.projectService.update(this.project.id as number, this.project).subscribe(
         (data: any) => {
           this.messageService.add({
@@ -76,6 +79,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProduct(project: Project) {
+    this.titleForm = "Edit this project"
     this.project = project;
     this.projectForm.get('name')!.setValue(project.name);
     this.projectDialog = true;
@@ -83,5 +87,18 @@ export class ProjectsComponent implements OnInit {
 
   selectProject(selectedProject: Project){
     this.projectService.setSelectedProject(selectedProject);
+  }
+
+  deleteProject(project: Project){
+    console.log(project.id);
+    this.projectService.delete(project.id as number).subscribe(
+      (data: any) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Project deleted successfully'
+        });
+        this.projects = this.projects.filter(p => p.id != project.id);
+      });
   }
 }
