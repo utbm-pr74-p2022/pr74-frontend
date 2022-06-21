@@ -42,6 +42,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   openNew() {
+    this.project = null;
     this.titleForm = "Create a new project";
     this.projectDialog = true;
   }
@@ -73,9 +74,15 @@ export class ProjectsComponent implements OnInit {
           });
           this.projectDialog = false;
           this.projects.find(p => p.id === this.project!.id)!.name = data.name;
+        },
+        error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error creating sprint'
+          });
         });
     }
-    this.project = null;
   }
 
   editProduct(project: Project) {
@@ -99,6 +106,13 @@ export class ProjectsComponent implements OnInit {
           detail: 'Project deleted successfully'
         });
         this.projects = this.projects.filter(p => p.id != project.id);
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error creating sprint'
+        });
       });
   }
 }

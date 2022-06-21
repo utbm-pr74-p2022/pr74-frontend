@@ -27,6 +27,8 @@ import { ProjectsComponent } from './projects/projects.component';
 import { DragDropModule } from 'primeng/dragdrop';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { httpInterceptorProviders } from './interceptors';
+import {CalendarModule} from 'primeng/calendar';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -60,9 +62,10 @@ import { httpInterceptorProviders } from './interceptors';
     MultiSelectModule,
     DragDropModule,
     RadioButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

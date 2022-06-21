@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Sprint } from '../models/sprint.model';
 import { Task } from '../models/task.model';
-import { BacklogService } from '../services/backlog.service';
-import { TaskService } from '../services/task.service';
 import { Project } from '../models/project.model';
 import { ProjectService } from '../services/project.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SprintService } from '../services/sprint.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-backlog',
@@ -21,8 +22,8 @@ export class BacklogComponent implements OnInit {
   sprints: Sprint[] = [];
   tasks: Task[] = [];
 
-  sprint!: Sprint;
-  task!: Task;
+  sprint!: Sprint | null;
+  task!: Task | null;
 
   selectedProject?: Project;
 
@@ -31,9 +32,14 @@ export class BacklogComponent implements OnInit {
 
   selectedSprintStatus: any = null;
 
+  sprintForm!: FormGroup;
+  taskForm!: FormGroup;
+
   constructor(private messageService: MessageService,
-    private projectService: ProjectService
-    ) { }
+    private projectService: ProjectService,
+    private sprintService: SprintService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.projectService.currentProject.subscribe(p =>
@@ -45,37 +51,111 @@ export class BacklogComponent implements OnInit {
         (data: any) => {
           this.sprints = data.sprints._embedded.sprints;
           this.sprints.forEach(s => {
-            s.status = new Date(s.endDate as string) < new Date() ? 'CLOSE' : new Date(s.startDate as string) > new Date() ? 'OPEN' : 'PROGRESS';
+            s.status = this.getStatus(s.startDate as string, s.endDate as string);
           });
           this.tasks = data.backlog.tasks._embedded.tasks;
         });
       }
     });
+    this.initForm();
+  }
+
+  initForm()
+  {
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 7);
+    this.sprintForm = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]],
+        startDate: [new Date(), [Validators.required]],
+        endDate: [endDate, [Validators.required]]
+      }
+    )
+    this.taskForm = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]]
+      }
+    )
   }
 
   openNewSprint() {
-    this.sprint = {};
-    this.submittedSprint = false;
+    this.sprint = null;
     this.sprintDialog = true;
   }
 
   openNewTask() {
-    //this.task = new Task(0, "", 0, [0]);
-    this.submittedTask = false;
     this.taskDialog = true;
   }
 
-  saveSprint() { }
+  saveSprint() {
+    const name = this.sprintForm.get('name')!.value;
+    const startDate = this.datepipe.transform(this.sprintForm.get('startDate')!.value, 'yyyy-MM-dd');
+    const endDate = this.datepipe.transform(this.sprintForm.get('endDate')!.value, 'yyyy-MM-dd');
+
+    if (this.sprint == null) {
+      this.sprintService.save(new Sprint(null, name, "", startDate, endDate, null, this.selectedProject)).subscribe(
+        (data: any) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Sprint created successfully'
+          });
+          this.sprintDialog = false;
+          this.sprints = [...this.sprints, new Sprint(data.id, data.name, data.description, data.startDate, data.endDate, this.getStatus(data.startDate, data.endDate), this.selectedProject)];
+        },
+        error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error creating sprint'
+          });
+        }
+      );
+    }
+    else {
+      this.sprint.name = name;
+      this.sprint.startDate = startDate;
+      this.sprint.endDate = endDate;
+      this.sprint.project = this.selectedProject;
+
+      this.sprintService.update(this.sprint.id as number, this.sprint).subscribe(
+        (data: any) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Sprint updated successfully'
+          });
+          this.sprintDialog = false;
+          this.sprints.find(p => p.id === this.sprint!.id)!.name = data.name;
+          this.sprints.find(p => p.id === this.sprint!.id)!.status = this.getStatus(data.startDate, data.endDate);
+        },
+        error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error creating sprint'
+          });
+        });
+    }
+  }
 
   saveTask() { }
 
+  getStatus(startDate: string, endDate: string) {
+    return new Date(endDate) < new Date() ? 'CLOSE' : new Date(startDate) > new Date() ? 'OPEN' : 'PROGRESS';
+  }
+
   editSprint(sprint: Sprint) {
-    this.sprint = { ...sprint };
+    this.sprint = sprint
+    this.sprintForm.get('name')!.setValue(sprint.name);
+    this.sprintForm.get('startDate')!.setValue(sprint.startDate);
+    this.sprintForm.get('endDate')!.setValue(sprint.endDate);
     this.sprintDialog = true;
   }
 
   editTask(task: Task) {
-    this.task = { ...task };
+    this.task = task;
+    this.taskForm.get('name')!.setValue(task.name);
     this.taskDialog = true;
   }
 
