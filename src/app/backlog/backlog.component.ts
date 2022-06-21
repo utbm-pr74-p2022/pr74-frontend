@@ -37,20 +37,24 @@ export class BacklogComponent implements OnInit {
     { name: 'CLOSE', key: 'C' },
   ];
 
-  constructor(private backlogService: BacklogService,
-    private taskService: TaskService,
-    private messageService: MessageService,
+  constructor(private messageService: MessageService,
     private projectService: ProjectService
     ) { }
 
   ngOnInit(): void {
-    this.selectedSprintStatus = this.sprintStatusList[0];
-    this.backlogService.getSprints().then((data) => (this.sprints = data));
-    this.taskService.getTasks().then((data) => (this.tasks = data));
     this.projectService.currentProject.subscribe(p =>
     {
       this.selectedProject = p;
+      if(this.selectedProject.id != undefined && this.selectedProject.id != null)
+      {
+        this.projectService.findOne(this.selectedProject.id).subscribe(
+        (data: any) => {
+          this.sprints = data.sprints._embedded.sprints;
+          this.tasks = data.backlog.tasks._embedded.tasks;
+        });
+      }
     });
+    this.selectedSprintStatus = this.sprintStatusList[0];
   }
 
   openNewSprint() {
@@ -60,101 +64,14 @@ export class BacklogComponent implements OnInit {
   }
 
   openNewTask() {
-    this.task = new Task(0, "", 0, [0]);
+    //this.task = new Task(0, "", 0, [0]);
     this.submittedTask = false;
     this.taskDialog = true;
   }
 
-  saveSprint() {
-    this.submittedSprint = true;
+  saveSprint() { }
 
-    if (this.sprint.name) {
-      if (this.sprint.id) {
-        this.sprint.status = this.selectedSprintStatus['name'];
-        this.sprints[this.findIndexByIdSprint(this.sprint.id)] = this.sprint;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Sprint Updated',
-          life: 3000,
-        });
-      } else {
-        this.sprint.id = this.createId();
-        this.sprint.description = 'SPR00001';
-        this.sprint.startDate = new Date();
-        this.sprint.endDate = new Date();
-        this.sprint.status = this.selectedSprintStatus['name'];
-        this.sprints.push(this.sprint);
-
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Sprint Created', life: 3000});
-      }
-
-      this.sprints = [...this.sprints];
-      this.sprintDialog = false;
-      this.sprint = {};
-    }
-  }
-
-  saveTask() {
-    this.submittedTask = true;
-
-    if (this.task.name) {
-      if (this.task.id) {
-        this.tasks[this.findIndexByIdTask(this.task.id)] = this.task;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Task Updated',
-          life: 3000,
-        });
-      } else {
-        this.task.id = this.createId();
-        this.tasks.push(this.task);
-
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Task Created', life: 3000});
-      }
-
-      this.tasks = [...this.tasks];
-      this.taskDialog = false;
-      this.task = new Task(0, "", 0, [0]);
-    }
-  }
-
-  // findIndexById(id: number, object: any[]): number {
-  //   let index = -1;
-  //   for (let i = 0; i < object.length; i++) {
-  //     if (object[i].id === id) {
-  //       index = i;
-  //       break;
-  //     }
-  //   }
-  //   return index;
-  // }
-
-  findIndexByIdSprint(id: number): number {
-    let index = -1;
-    for (let i = 0; i < this.sprints.length; i++) {
-      if (this.sprints[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-    return index;
-  }
-  findIndexByIdTask(id: number): number {
-    let index = -1;
-    for (let i = 0; i < this.tasks.length; i++) {
-      if (this.tasks[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-    return index;
-  }
-
-  createId(): number {
-    return Math.floor(Math.random() * Math.floor(299) + 1);
-  }
+  saveTask() { }
 
   editSprint(sprint: Sprint) {
     this.sprint = { ...sprint };

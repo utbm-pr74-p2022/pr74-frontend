@@ -1,6 +1,3 @@
-import { Sprint } from "./sprint.model";
-import { User } from "./user.model";
-
 export class Project {
   id?: number | null;
   name?: string;
