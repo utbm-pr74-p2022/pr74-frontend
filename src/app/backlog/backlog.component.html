@@ -71,7 +71,7 @@
 </div>
 
 <form [formGroup]="sprintForm" (ngSubmit)="saveSprint()">
-  <p-dialog [(visible)]="sprintDialog" [style]="{width: '450px'}" header="Create a new task" [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="sprintDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>
@@ -92,7 +92,7 @@
 </form>
 
 <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
-  <p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" header="Create a new task" [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>

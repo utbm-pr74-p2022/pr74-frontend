@@ -37,6 +37,7 @@ export class BacklogComponent implements OnInit {
 
   sprintForm!: FormGroup;
   taskForm!: FormGroup;
+  titleForm: string = "";
 
   constructor(private messageService: MessageService,
     private projectService: ProjectService,
@@ -86,6 +87,7 @@ export class BacklogComponent implements OnInit {
   }
 
   openNewSprint() {
+    this.titleForm = "Create a new sprint";
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 7);
     this.sprint = null;
@@ -96,6 +98,7 @@ export class BacklogComponent implements OnInit {
   }
 
   openNewTask() {
+    this.titleForm = "Create a new task";
     this.task = null;
     this.taskForm.get('name')!.setValue('')
     this.taskForm.get('priority')!.setValue(this.priorities[0])
@@ -207,6 +210,7 @@ export class BacklogComponent implements OnInit {
   }
 
   editSprint(sprint: Sprint) {
+    this.titleForm = "Edit this sprint : " + sprint.name;
     this.sprint = sprint
     this.sprintForm.get('name')!.setValue(sprint.name);
     this.sprintForm.get('startDate')!.setValue(sprint.startDate);
@@ -215,6 +219,7 @@ export class BacklogComponent implements OnInit {
   }
 
   editTask(task: Task) {
+    this.titleForm = "Edit this task : " + task.name;
     this.task = task;
     this.taskForm.get('name')!.setValue(task.name);
     this.taskForm.get('priority')!.setValue(task.priority);
