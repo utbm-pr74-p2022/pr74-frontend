@@ -15,25 +15,27 @@
               <p-header>{{task.priority.name}}</p-header>
             </div>
           </div>
-          <p-avatarGroup class="absolute right-0 mr-5">
-              <p-avatar *ngIf="task.user" image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg" shape="circle"></p-avatar>
-          </p-avatarGroup>
+          <p-avatar class="absolute right-0 mr-8" *ngIf="task.user" pTooltip="{{task.user.username}}" tooltipPosition="left" image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg" shape="circle"></p-avatar>
+          <button pButton pRipple icon="pi pi-eye" class="p-button-rounded absolute right-0 mr-3" (click)="viewTask(task)"></button>
         </div>
     </div>
     </div>
   </div>
 </div>
 
-<!-- <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+<form [formGroup]="taskForm" (ngSubmit)="saveTask()">
   <p-dialog [(visible)]="taskDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="p-field">
-          <label for="title">Title</label>
+        <label for="title">Title</label>
           <input type="text" pInputText id="name" formControlName="name" required autofocus />
+          <br><br>
+          <label for="description">Description</label>
+          <input type="text" pInputText id="description" formControlName="description" autofocus />
           <br><br>
           <p-dropdown [options]="priorities" formControlName="priority"  optionLabel="name" appendTo="body"></p-dropdown>
           <br>
-          <p-dropdown [options]="sprintsSelect" formControlName="sprint"  optionLabel="name" appendTo="body"></p-dropdown>
+          <p-dropdown [options]="users" formControlName="user"  optionLabel="username" appendTo="body"></p-dropdown>
       </div>
       <br/>
     </ng-template>
@@ -41,4 +43,4 @@
         <button pButton pRipple type="submit" label="Save" icon="pi pi-check" class="p-button-text" [disabled]="taskForm.invalid"></button>
     </ng-template>
   </p-dialog>
-</form> -->
+</form>

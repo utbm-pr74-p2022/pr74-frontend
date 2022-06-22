@@ -205,6 +205,7 @@ export class BacklogComponent implements OnInit {
     }
     else {
       this.task.name = name;
+      this.task.description = description;
       this.task.priority = priority;
       this.task.sprint = sprint;
       this.task.backlog = backlog;

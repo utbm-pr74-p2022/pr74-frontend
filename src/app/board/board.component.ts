@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Priority } from '../models/priority.model';
 import { Project } from '../models/project.model';
 import { Sprint } from '../models/sprint.model';
 import { Status } from '../models/status.model';
 import { Task } from '../models/task.model';
+import { User } from '../models/user.model';
 import { ProjectService } from '../services/project.service';
 import { SprintService } from '../services/sprint.service';
 import { TaskService } from '../services/task.service';
@@ -23,10 +26,18 @@ export class BoardComponent implements OnInit {
 
   draggedTask!: Task;
 
+  taskDialog!: boolean;
+  taskForm!: FormGroup;
+  titleForm: string = "";
+  priorities: Priority[] = [];
+  users: User[] = [];
+  task!: Task | null;
+
   constructor(private messageService: MessageService,
     private taskService: TaskService,
     private projectService: ProjectService,
-    private sprintService: SprintService) {}
+    private sprintService: SprintService,
+    private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.projectService.currentProject.subscribe(p =>
@@ -39,6 +50,11 @@ export class BoardComponent implements OnInit {
           this.statuses = data.statuses._embedded != undefined ? data.statuses._embedded.statuses : [];
           const sprints = data.sprints._embedded != undefined ? data.sprints._embedded.sprints : [];
           const actualSprint = sprints.find((s: Sprint) => new Date(s.startDate as string) < new Date() && new Date(s.endDate as string) > new Date());
+          this.priorities = data.priorities._embedded != undefined ? data.priorities._embedded.priorities : [];
+          const usrs = data.users._embedded != undefined ? data.users._embedded.users : [];
+          this.users = [new User(0, "", null), ...usrs];
+          console.log(this.users);
+
           if(actualSprint != null)
           {
             this.sprintService.findOne(actualSprint.id).subscribe(
@@ -49,6 +65,19 @@ export class BoardComponent implements OnInit {
         });
       }
     });
+    this.initForm();
+  }
+
+  initForm()
+  {
+    this.taskForm = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]],
+        description: [''],
+        priority: ['', [Validators.required]],
+        user: ['']
+      }
+    )
   }
 
   dragStart(task: Task) {
@@ -75,5 +104,47 @@ export class BoardComponent implements OnInit {
 
   dragEnd() {
     this.draggedTask = null!;
+  }
+
+  viewTask(task: Task) {
+    this.titleForm = "View task : " + task.name;
+    this.task = new Task(task.id, task.name, task.description, task.priority, task.user, task.backlog, task.sprint, task.status);
+    this.taskForm.get('name')!.setValue(task.name);
+    this.taskForm.get('description')!.setValue(task.description);
+    this.taskForm.get('priority')!.setValue(task.priority);
+    this.taskForm.get('user')!.setValue(task.user);
+    this.taskDialog = true;
+  }
+
+  saveTask() {
+    const name = this.taskForm.get('name')!.value;
+    const description = this.taskForm.get('description')!.value;
+    const priority = this.taskForm.get('priority')!.value;
+    const user = this.taskForm.get('user')!.value;
+
+    this.task!.name = name;
+    this.task!.description = description;
+    this.task!.priority = priority;
+    this.task!.user = user;
+
+    this.taskService.update(this.task!.id as number, this.task as Task).subscribe(
+      (data: any) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Task updated successfully'
+        });
+        this.taskDialog = false;
+        console.log(data);
+
+        this.tasks = [this.task as Task, ...this.tasks.filter(p => p.id !== this.task!.id)];
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error updating task'
+        });
+      });
   }
 }
