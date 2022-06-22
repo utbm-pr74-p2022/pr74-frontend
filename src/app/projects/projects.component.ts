@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
 import { UserService } from '../services/user.service';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-projects',
@@ -27,7 +28,8 @@ export class ProjectsComponent implements OnInit {
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe(x =>
@@ -135,22 +137,31 @@ export class ProjectsComponent implements OnInit {
 
   }
 
-  deleteProject(project: Project){
-    this.projectService.delete(project.id as number).subscribe(
-      (data: any) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Project deleted successfully'
-        });
-        this.projects = this.projects.filter(p => p.id != project.id);
+  deleteProject(event: Event, project: Project){
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to delete this project?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.projectService.delete(project.id as number).subscribe(
+          (data: any) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Project deleted successfully'
+            });
+            this.projects = this.projects.filter(p => p.id != project.id);
+          },
+          error => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error deleting project'
+            });
+          });
       },
-      error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error deleting project'
-        });
-      });
+      reject: () => {
+      }
+    });
   }
 }

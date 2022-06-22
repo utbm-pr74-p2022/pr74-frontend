@@ -32,6 +32,8 @@ import { DatePipe } from '@angular/common';
 import {DropdownModule} from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -68,9 +70,10 @@ import { TagModule } from 'primeng/tag';
     CalendarModule,
     DropdownModule,
     ChipModule,
-    TagModule
+    TagModule,
+    ConfirmPopupModule
   ],
-  providers: [httpInterceptorProviders, DatePipe],
+  providers: [httpInterceptorProviders, DatePipe, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
