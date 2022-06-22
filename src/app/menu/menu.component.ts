@@ -40,7 +40,7 @@ export class MenuComponent implements OnInit {
       {
         label: 'Navigation Bar',
         items: [
-          { label: 'Projects', icon: 'pi pi-fw pi-th-large', routerLink: "projects", routerLinkActiveOptions: {exact: true} },
+          { label: 'Projects', icon: 'pi pi-fw pi-sitemap', routerLink: "projects", routerLinkActiveOptions: {exact: true} },
           { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board", routerLinkActiveOptions: {exact: true} },
           { label: 'Backlog', icon: 'pi pi-fw pi-list', routerLink: "backlog" },
           // { label: 'Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: "settings" },

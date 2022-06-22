@@ -25,9 +25,9 @@
                 <td>{{project.date}}</td>
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
-                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2 mr-1" (click)="selectProject(project)"></button>
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
-                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject(project)" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
+                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2 mr-1" (click)="selectProject(project)" pTooltip="Select" tooltipPosition="top"></button>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)" pTooltip="Edit" tooltipPosition="top" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject(project)" pTooltip="Delete" tooltipPosition="top" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
                 </td>
             </tr>
         </ng-template>
