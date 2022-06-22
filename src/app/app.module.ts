@@ -30,7 +30,7 @@ import { httpInterceptorProviders } from './interceptors';
 import {CalendarModule} from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
 import {DropdownModule} from 'primeng/dropdown';
-
+import { ChipModule } from 'primeng/chip';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,8 @@ import {DropdownModule} from 'primeng/dropdown';
     RadioButtonModule,
     ReactiveFormsModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    ChipModule
   ],
   providers: [httpInterceptorProviders, DatePipe],
   bootstrap: [AppComponent]
