@@ -83,6 +83,7 @@ export class BacklogComponent implements OnInit {
     this.taskForm = this.formBuilder.group(
       {
         name: ['', [Validators.required]],
+        description: ['', [Validators.required]],
         priority: ['', [Validators.required]],
         sprint: ['']
       }
@@ -121,9 +122,10 @@ export class BacklogComponent implements OnInit {
 
   editTask(task: Task) {
     this.titleForm = "Edit this task : " + task.name;
-    this.task = new Task(task.id, task.name, task.priority, task.idsAssigned, task.backlog, task.sprint, task.status);
+    this.task = new Task(task.id, task.name, task.description, task.priority, task.idsAssigned, task.backlog, task.sprint, task.status);
     this.taskForm.reset();
     this.taskForm.get('name')!.setValue(task.name);
+    this.taskForm.get('description')!.setValue(task.description);
     this.taskForm.get('priority')!.setValue(task.priority);
     task.sprint != null ? this.taskForm.get('sprint')!.setValue(task.sprint) : this.taskForm.get('sprint')!.setValue(this.sprintsSelect[0]);
     this.taskDialog = true;
@@ -193,12 +195,13 @@ export class BacklogComponent implements OnInit {
 
   saveTask() {
     const name = this.taskForm.get('name')!.value;
+    const description = this.taskForm.get('description')!.value;
     const priority = this.taskForm.get('priority')!.value;
     const sprint = this.taskForm.get('sprint')!.value.id != 0 ? this.taskForm.get('sprint')!.value : null;
     const backlog = sprint == null ? new Backlog(this.backlogid, this.tasks) : null;
 
     if (this.task == null) {
-      this.createTask(name, priority, backlog, sprint);
+      this.createTask(name, description, priority, backlog, sprint);
     }
     else {
       this.task.name = name;
@@ -210,8 +213,8 @@ export class BacklogComponent implements OnInit {
     }
   }
 
-  createTask(name: string, priority: Priority, backlog: Backlog | null, sprint: Sprint | null) {
-    this.taskService.save(new Task(null, name, priority, null, backlog, sprint, null)).subscribe(
+  createTask(name: string, description: string, priority: Priority, backlog: Backlog | null, sprint: Sprint | null) {
+    this.taskService.save(new Task(null, name, description, priority, null, backlog, sprint, null)).subscribe(
       (data: any) => {
         this.messageService.add({
           severity: 'success',
@@ -221,7 +224,7 @@ export class BacklogComponent implements OnInit {
         this.taskDialog = false;
         if(data.backlog != null)
         {
-          const newTask = new Task(data.id, data.name, data.priority, null, data.backlog, data.sprint, data.status);
+          const newTask = new Task(data.id, data.name, data.description, data.priority, null, data.backlog, data.sprint, data.status);
           this.tasks = [...this.tasks, newTask];
         }
       },
