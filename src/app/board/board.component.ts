@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { Sprint } from '../models/sprint.model';
 import { Status } from '../models/status.model';
@@ -10,7 +11,8 @@ import { TaskService } from '../services/task.service';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
+  providers: [MessageService]
 })
 export class BoardComponent implements OnInit {
 
@@ -21,7 +23,8 @@ export class BoardComponent implements OnInit {
 
   draggedTask!: Task;
 
-  constructor(private taskService: TaskService,
+  constructor(private messageService: MessageService,
+    private taskService: TaskService,
     private projectService: ProjectService,
     private sprintService: SprintService) {}
 
@@ -59,6 +62,13 @@ export class BoardComponent implements OnInit {
         (data: any) => {
           this.tasks.find(t => t.id == this.draggedTask.id)!.status = this.statuses.find(c => c.id == id) as Status;
           this.draggedTask = null!;
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error creating sprint'
+        });
       });
     }
   }

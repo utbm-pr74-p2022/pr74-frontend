@@ -220,7 +220,10 @@ export class BacklogComponent implements OnInit {
         });
         this.taskDialog = false;
         if(data.backlog != null)
-          this.tasks = [...this.tasks, new Task(data.id, data.name, data.priority, null, null, data.backlog, data.sprint)];
+        {
+          const newTask = new Task(data.id, data.name, data.priority, null, data.backlog, data.sprint, data.status);
+          this.tasks = [...this.tasks, newTask];
+        }
       },
       error => {
         this.messageService.add({

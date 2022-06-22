@@ -6,7 +6,15 @@
     <div class="content" pDroppable="tasks" (onDrop)="drop(status.id)" style="overflow-x:auto">
       <div *ngFor="let task of tasks">
         <div class="relative flex-1 flex flex-row shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" pDraggable="tasks" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngIf="task.status!.id == status.id">
-          <p class="text-base">{{task.name}}</p>
+          <!-- <p class="text-base">{{task.name}}</p> -->
+          <div class="flex flex-column">
+            <div class="text-lg font-semibold">
+              <p-header>{{task.name}}</p-header>
+            </div>
+            <div>
+              <p-header>{{task.priority.name}}</p-header>
+            </div>
+          </div>
           <p-avatarGroup class="absolute right-0 mr-5">
             <ng-container *ngFor="let assigned of task.idsAssigned; let i = index">
               <p-avatar image="https://docplayer.fr/docs-images/87/96070545/images/52-0.jpg" shape="circle" *ngIf="i<3"></p-avatar>
