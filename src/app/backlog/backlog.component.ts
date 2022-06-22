@@ -122,7 +122,7 @@ export class BacklogComponent implements OnInit {
 
   editTask(task: Task) {
     this.titleForm = "Edit this task : " + task.name;
-    this.task = new Task(task.id, task.name, task.description, task.priority, task.idsAssigned, task.backlog, task.sprint, task.status);
+    this.task = new Task(task.id, task.name, task.description, task.priority, task.user, task.backlog, task.sprint, task.status);
     this.taskForm.reset();
     this.taskForm.get('name')!.setValue(task.name);
     this.taskForm.get('description')!.setValue(task.description);
