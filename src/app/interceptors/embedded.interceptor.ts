@@ -10,7 +10,7 @@ export class EmbeddedInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(req.method == "POST" && req.url.includes("project"))
+    if((req.method == "POST" || req.method == "PUT") && req.url.includes("project"))
     {
       let data = req.body;
       this.newBody = {

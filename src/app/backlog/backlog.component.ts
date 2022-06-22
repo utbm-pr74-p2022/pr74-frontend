@@ -51,6 +51,7 @@ export class BacklogComponent implements OnInit {
     this.projectService.currentProject.subscribe(p =>
     {
       this.selectedProject = p;
+      this.selectedProject.users = null;
       if(this.selectedProject.id != undefined && this.selectedProject.id != null)
       {
         this.projectService.findOne(this.selectedProject.id).subscribe(

@@ -30,6 +30,12 @@ export class ProjectsComponent implements OnInit {
     this.projectService.getAll().subscribe(
       (data :any) => {
         this.projects = data._embedded.projects;
+        let i = 0;
+        this.projects.forEach(
+          p => {
+            p.users = data._embedded.projects[i].users._embedded.users;
+            i++;
+        });
       });
 
     this.userService.getAll().subscribe(
@@ -52,6 +58,7 @@ export class ProjectsComponent implements OnInit {
   openNew() {
     this.project = null;
     this.titleForm = "Create a new project";
+    this.projectForm.reset();
     this.projectDialog = true;
   }
 
@@ -68,7 +75,7 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project created successfully'
           });
           this.projectDialog = false;
-          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status, data.users)];
+          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status, data.users._embedded.users)];
         },
         error => {
           this.messageService.add({
@@ -80,6 +87,7 @@ export class ProjectsComponent implements OnInit {
     }
     else {
       this.project.name = name;
+      this.project.users = users;
       this.projectService.update(this.project.id as number, this.project).subscribe(
         (data: any) => {
           this.messageService.add({
@@ -104,6 +112,7 @@ export class ProjectsComponent implements OnInit {
     this.titleForm = "Edit this project"
     this.project = project;
     this.projectForm.get('name')!.setValue(project.name);
+    this.projectForm.get('users')!.setValue(project.users);
     this.projectDialog = true;
   }
 

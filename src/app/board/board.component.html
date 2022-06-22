@@ -12,7 +12,7 @@
               <p-header>{{task.name}}</p-header>
             </div>
             <div>
-              <p-chip label="{{task.priority.name}}" styleClass="ml-2 custom-chip" [style.--color]="task.priority.color"></p-chip>
+              <p-chip label="{{task.priority.name}}" styleClass="ml-2 custom-chip" [style.--color]="'var(--'+task.priority.color+')'"></p-chip>
             </div>
           </div>
           <p-avatar class="absolute right-0 mr-8" *ngIf="task.user" pTooltip="{{task.user.username}}" tooltipPosition="left" image="{{task.user.image}}" shape="circle"></p-avatar>
