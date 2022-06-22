@@ -55,13 +55,13 @@ export class BacklogComponent implements OnInit {
       {
         this.projectService.findOne(this.selectedProject.id).subscribe(
         (data: any) => {
-          this.sprints = data.sprints._embedded.sprints;
+          this.sprints = data.sprints._embedded != undefined ? data.sprints._embedded.sprints : [];
           this.sprints.forEach(s => {
             s.status = this.getStatus(s.startDate as string, s.endDate as string);
           });
           this.tasks = data.backlog.tasks._embedded != undefined ? data.backlog.tasks._embedded.tasks : [];
           this.backlogid = data.backlog.id;
-          this.priorities = data.priorities._embedded.priorities;
+          this.priorities = data.priorities._embedded != undefined ? data.priorities._embedded.priorities : [];
           this.sprintsSelect = [new Sprint(0, "", null, null, null, null, null), ...this.sprints.filter(s => s.status != "CLOSED")];
         });
       }

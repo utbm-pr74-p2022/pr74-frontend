@@ -36,14 +36,14 @@ export class BoardComponent implements OnInit {
       {
         this.projectService.findOne(this.selectedProject.id).subscribe(
         (data: any) => {
-          this.statuses = data.statuses._embedded.statuses;
-          const sprints = data.sprints._embedded.sprints;
+          this.statuses = data.statuses._embedded != undefined ? data.statuses._embedded.statuses : [];
+          const sprints = data.sprints._embedded != undefined ? data.sprints._embedded.sprints : [];
           const actualSprint = sprints.find((s: Sprint) => new Date(s.startDate as string) < new Date() && new Date(s.endDate as string) > new Date());
           if(actualSprint != null)
           {
             this.sprintService.findOne(actualSprint.id).subscribe(
               (data: any) => {
-                this.tasks = data.tasks._embedded.tasks;
+                this.tasks = data.tasks._embedded != undefined ? data.tasks._embedded.tasks : [];
             });
           }
         });
