@@ -10,6 +10,8 @@ import { DatePipe } from '@angular/common';
 import { TaskService } from '../services/task.service';
 import { Backlog } from '../models/backlog.model';
 import { Priority } from '../models/priority.model';
+import { AuthService } from '../services/auth.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-backlog',
@@ -40,14 +42,22 @@ export class BacklogComponent implements OnInit {
   taskForm!: FormGroup;
   titleForm: string = "";
 
+  auth!: User;
+
   constructor(private messageService: MessageService,
     private projectService: ProjectService,
     private sprintService: SprintService,
     private taskService: TaskService,
     private formBuilder: FormBuilder,
-    public datepipe: DatePipe) { }
+    public datepipe: DatePipe,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.currentUser.subscribe(x =>
+      {
+        this.auth = x;
+      });
+
     this.projectService.currentProject.subscribe(p =>
     {
       this.selectedProject = p;

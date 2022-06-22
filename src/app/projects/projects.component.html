@@ -1,12 +1,13 @@
 <p-toast></p-toast>
 <div class="flex flex-row overflow-x-auto">
   <div class="card h-screen flex flex-grow-1 flex-column align-items-center py-4">
-    <p-toolbar styleClass="mb-4">
+    <p-toolbar styleClass="mb-4" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'">
       <ng-template pTemplate="left">
         <button pButton pRipple label="New Project" icon="pi pi-plus" class="p-button-success mr-2"
           (click)="openNew()"></button>
       </ng-template>
     </p-toolbar>
+    <p-header><h1>Projects List</h1></p-header>
     <p-table *ngIf="projects.length != 0" class="w-full" #dt [value]="projects" [rows]="10" [paginator]="true"
       [globalFilterFields]="['name','country.name','representative.name','status']" [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -15,7 +16,7 @@
             <th id="name" pSortableColumn="name">Title <p-sortIcon field="name"></p-sortIcon></th>
             <th id="createdDate" pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon></th>
             <th id="status" pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-            <th id=""></th>
+            <th id="" class="w-15rem"></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-project>
@@ -25,8 +26,8 @@
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
                   <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2 mr-1" (click)="selectProject(project)"></button>
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)"></button>
-                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject(project)"></button>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject(project)" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
                 </td>
             </tr>
         </ng-template>

@@ -6,16 +6,15 @@
     <div class="content" pDroppable="tasks" (onDrop)="drop(status.id)" style="overflow-x:auto">
       <div *ngFor="let task of tasks">
         <div class="relative flex-1 flex flex-row shadow-2 card surface-0 border-round align-items-center m-2 px-5 py-3" pDraggable="tasks" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngIf="task.status!.id == status.id">
-          <!-- <p class="text-base">{{task.name}}</p> -->
-          <div class="flex flex-row align-items-center">
+          <div class="flex flex-column align-items-center">
             <div class="text-lg font-semibold">
               <p-header>{{task.name}}</p-header>
             </div>
             <div>
-              <p-chip label="{{task.priority.name}}" styleClass="ml-2 custom-chip" [style.--color]="'var(--'+task.priority.color+')'"></p-chip>
+              <p-chip label="{{task.priority.name}}" styleClass="mt-1 custom-chip" [style.--color]="'var(--'+task.priority.color+')'"></p-chip>
             </div>
           </div>
-          <p-avatar class="absolute right-0 mr-8" *ngIf="task.user" pTooltip="{{task.user.username}}" tooltipPosition="left" image="{{task.user.image}}" shape="circle"></p-avatar>
+          <p-avatar class="absolute right-0 mr-8" *ngIf="task.user" pTooltip="{{task.user.username}}" tooltipPosition="bottom" image="{{task.user.image}}" shape="circle"></p-avatar>
           <button pButton pRipple icon="pi pi-eye" class="p-button-rounded absolute right-0 mr-3" (click)="viewTask(task)"></button>
         </div>
     </div>

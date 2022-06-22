@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
+import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
 import { UserService } from '../services/user.service';
 
@@ -20,13 +21,20 @@ export class ProjectsComponent implements OnInit {
   projectForm!: FormGroup;
   project?: Project | null;
   titleForm: string = "";
+  auth!: User;
 
   constructor(private projectService: ProjectService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-    private userService: UserService) {}
+    private userService: UserService,
+    private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.currentUser.subscribe(x =>
+      {
+        this.auth = x;
+      });
+
     this.projectService.getAll().subscribe(
       (data :any) => {
         this.projects = data._embedded.projects;
@@ -118,6 +126,13 @@ export class ProjectsComponent implements OnInit {
 
   selectProject(selectedProject: Project){
     this.projectService.setSelectedProject(selectedProject);
+
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Information',
+      detail: 'Project ' + selectedProject.name + ' selected'
+    });
+
   }
 
   deleteProject(project: Project){

@@ -31,6 +31,7 @@ import {CalendarModule} from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
 import {DropdownModule} from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ChipModule } from 'primeng/chip';
     ReactiveFormsModule,
     CalendarModule,
     DropdownModule,
-    ChipModule
+    ChipModule,
+    TagModule
   ],
   providers: [httpInterceptorProviders, DatePipe],
   bootstrap: [AppComponent]
