@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Project } from '../models/project.model';
+import { User } from '../models/user.model';
 import { ProjectService } from '../services/project.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-projects',
@@ -13,6 +15,7 @@ import { ProjectService } from '../services/project.service';
 export class ProjectsComponent implements OnInit {
   projectDialog!: boolean;
   projects: Project[] = [];
+  users: User[] = [];
   selectedProject?: any;
   projectForm!: FormGroup;
   project?: Project | null;
@@ -20,14 +23,18 @@ export class ProjectsComponent implements OnInit {
 
   constructor(private projectService: ProjectService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    private userService: UserService) {}
 
   ngOnInit(): void {
     this.projectService.getAll().subscribe(
       (data :any) => {
-        data._embedded.projects.forEach((d: any) => {
-            this.projects.push(new Project(d.id, d.name, d.date, d.status));
-          })
+        this.projects = data._embedded.projects;
+      });
+
+    this.userService.getAll().subscribe(
+      (data :any) => {
+        this.users = data._embedded.users;
       });
     this.initForm();
   }
@@ -36,7 +43,8 @@ export class ProjectsComponent implements OnInit {
   {
     this.projectForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required]]
+        name: ['', [Validators.required]],
+        users: ['', [Validators.required]]
       }
     )
   }
@@ -49,9 +57,10 @@ export class ProjectsComponent implements OnInit {
 
   saveProduct() {
     const name = this.projectForm.get('name')!.value;
+    const users = this.projectForm.get('users')!.value;
 
     if (this.project == null) {
-      this.projectService.save(new Project(null, name, null, null)).subscribe(
+      this.projectService.save(new Project(null, name, null, null, users)).subscribe(
         (data: any) => {
           this.messageService.add({
             severity: 'success',
@@ -59,7 +68,7 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project created successfully'
           });
           this.projectDialog = false;
-          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status)];
+          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status, data.users)];
         },
         error => {
           this.messageService.add({

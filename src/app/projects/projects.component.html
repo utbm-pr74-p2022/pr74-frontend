@@ -21,7 +21,7 @@
     <ng-template pTemplate="body" let-project>
             <tr>
                 <td>{{project.name}}</td>
-                <td>{{project.createdDate}}</td>
+                <td>{{project.date}}</td>
                 <td><span [class]="'product-badge'">{{project.status}}</span></td>
                 <td>
                   <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2 mr-1" (click)="selectProject(project)"></button>
@@ -45,6 +45,8 @@
       <div class="p-field">
           <label for="title">Title</label>
           <input type="text" pInputText id="name" formControlName="name" required autofocus />
+          <br><br>
+          <p-multiSelect [options]="users" defaultLabel="Select users" optionLabel="username" display="chip" appendTo="body" formControlName="users"></p-multiSelect>
       </div>
       <br/>
     </ng-template>

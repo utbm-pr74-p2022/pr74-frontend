@@ -40,7 +40,7 @@ import { ChipModule } from 'primeng/chip';
     BacklogComponent,
     SettingsComponent,
     ConnectionComponent,
-    ProjectsComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
