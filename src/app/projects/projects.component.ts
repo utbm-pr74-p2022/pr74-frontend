@@ -58,8 +58,8 @@ export class ProjectsComponent implements OnInit {
   {
     this.projectForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required]],
-        users: ['', [Validators.required]]
+        username: ['', [Validators.required]],
+        role: ['', [Validators.required]]
       }
     )
   }
@@ -84,7 +84,6 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project created successfully'
           });
           this.projectDialog = false;
-          console.log(data);
 
           this.projects = [...this.projects, new Project(data.id as number, data.name as string, data.date, data.status, data.users._embedded.users)];
         },

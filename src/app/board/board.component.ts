@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
           const actualSprint = sprints.find((s: Sprint) => new Date(s.startDate as string) < new Date() && new Date(s.endDate as string) > new Date());
           this.priorities = data.priorities._embedded != undefined ? data.priorities._embedded.priorities : [];
           const usrs = data.users._embedded != undefined ? data.users._embedded.users : [];
-          this.users = [new User(0, "", null, null), ...usrs];
+          this.users = [new User(0, "", "", null, null), ...usrs];
           if(actualSprint != null)
           {
             this.sprintService.findOne(actualSprint.id).subscribe(

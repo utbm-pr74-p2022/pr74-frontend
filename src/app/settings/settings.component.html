@@ -1,1 +1,64 @@
-<p>settings works!</p>
+<p-toast></p-toast>
+<div class="flex flex-row overflow-x-auto">
+  <div class="card h-screen flex flex-grow-1 flex-column align-items-center py-4">
+    <p-toolbar styleClass="mb-4">
+      <ng-template pTemplate="left">
+        <button pButton pRipple label="New user" icon="pi pi-plus" class="p-button-success mr-2"
+          (click)="openNew()"></button>
+      </ng-template>
+    </p-toolbar>
+    <p-header><h1>Users List</h1></p-header>
+    <p-table *ngIf="users.length != 0" class="w-full" #dt [value]="users" [rows]="10" [paginator]="true"
+      [globalFilterFields]="['name','country.name','representative.name','status']" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      <ng-template pTemplate="header">
+        <tr>
+            <th id="image" class="w-5rem"></th>
+            <th id="name" pSortableColumn="name">Username <p-sortIcon field="username"></p-sortIcon></th>
+            <th id="role" pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+            <th id="" class="w-10rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+            <tr>
+                <td><p-avatar styleClass="mx-2 h-auto" image="{{user.image}}" shape="circle" size="large"></p-avatar></td>
+                <td>{{user.username}}</td>
+                <td>{{getRole(user)}}</td>
+                <td>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(user)" pTooltip="Edit" tooltipPosition="top"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject($event, user)" pTooltip="Delete" tooltipPosition="top"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+              <!-- In total there are {{projects ? projects.length : 0 }} products. -->
+          </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<form [formGroup]="userForm" (ngSubmit)="saveUser()">
+  <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="p-field">
+          <label for="username">Username</label>
+          <input type="text" pInputText id="username" formControlName="username" required autofocus />
+          <br><br>
+          <label for="password" *ngIf="!user">Password</label>
+          <input type="password" pInputText id="password" formControlName="password" required autofocus *ngIf="!user"/>
+          <br *ngIf="!user"><br *ngIf="!user">
+          <label for="image">Image</label>
+          <input type="text" pInputText id="image" formControlName="image" required autofocus />
+          <br><br>
+          <label for="username">Role</label>
+          <p-dropdown [options]="getAllRoles()" defaultLabel="Select role" optionLabel="nameFront" display="chip" appendTo="body" formControlName="role"></p-dropdown>
+      </div>
+      <br/>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="submit" label="Save" icon="pi pi-check" class="p-button-text" [disabled]="userForm.invalid"></button>
+    </ng-template>
+  </p-dialog>
+</form>
