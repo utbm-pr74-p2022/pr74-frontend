@@ -32,8 +32,10 @@
           <label for="description">Description</label>
           <input type="text" pInputText id="description" formControlName="description" autofocus />
           <br><br>
+          <label for="priority">Priority</label>
           <p-dropdown [options]="priorities" formControlName="priority"  optionLabel="name" appendTo="body"></p-dropdown>
           <br>
+          <label for="user">For user</label>
           <p-dropdown [options]="users" formControlName="user"  optionLabel="username" appendTo="body"></p-dropdown>
       </div>
       <br/>

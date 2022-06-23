@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
 import { UserService } from '../services/user.service';
-import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-projects',
@@ -85,7 +84,9 @@ export class ProjectsComponent implements OnInit {
             detail: 'Project created successfully'
           });
           this.projectDialog = false;
-          this.projects = [...this.projects,new Project(data.id as number, data.name as string, data.date, data.status, data.users._embedded.users)];
+          console.log(data);
+
+          this.projects = [...this.projects, new Project(data.id as number, data.name as string, data.date, data.status, data.users._embedded.users)];
         },
         error => {
           this.messageService.add({
