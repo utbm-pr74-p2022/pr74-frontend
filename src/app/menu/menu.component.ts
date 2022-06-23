@@ -49,7 +49,7 @@ export class MenuComponent implements OnInit {
   }
 
   getRole() {
-    return this.roleService.getRole(new User(this.auth.id, this.auth.username, "", new Role(0, this.auth.role as string, null), this.auth.image));
+    return this.roleService.getRoleByUser(new User(this.auth.id, this.auth.username, "", new Role(0, this.auth.role as string, null), this.auth.image, true));
   }
 
   logout(){

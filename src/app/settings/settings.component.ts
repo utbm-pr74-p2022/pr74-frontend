@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { User } from '../models/user.model';
+import { Role } from '../models/role.model';
 import { RoleService } from '../services/role.service';
 import { UserService } from '../services/user.service';
 
@@ -27,6 +28,7 @@ export class SettingsComponent implements OnInit {
     this.userService.getAll().subscribe(
       (data :any) => {
         this.users = data._embedded.users;
+        this.users = this.users.filter(u => u.enabled);
       });
     this.initForm();
   }
@@ -36,7 +38,7 @@ export class SettingsComponent implements OnInit {
     this.userForm = this.formBuilder.group(
       {
         username: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: [''],
         image: ['', [Validators.required]],
         role: ['', [Validators.required]]
       }
@@ -47,16 +49,19 @@ export class SettingsComponent implements OnInit {
     this.user = null;
     this.titleForm = "Create a new user";
     this.userForm.reset();
+    this.userForm.get('role')!.setValue(this.roleService.getRoleByName("ROLE_TEAM"));
     this.userDialog = true;
   }
 
-  editProduct(user: User) {
+  editUser(user: User) {
     this.titleForm = "Edit this user"
     this.user = user;
     this.userForm.reset();
     this.userForm.get('username')!.setValue(user.username);
     this.userForm.get('image')!.setValue(user.image);
-    this.userForm.get('role')!.setValue(user.role);
+    const userRole = user.role as Role;
+    const role = new Role(userRole.id, userRole.name, this.getRole(user));
+    this.userForm.get('role')!.setValue(role);
     this.userDialog = true;
   }
 
@@ -67,7 +72,7 @@ export class SettingsComponent implements OnInit {
     const role = this.userForm.get('role')!.value;
 
     if (this.user == null) {
-      this.userService.save(new User(null, username, password, role, image)).subscribe(
+      this.userService.save(new User(null, username, password, role, image, true)).subscribe(
         (data: any) => {
           this.messageService.add({
             severity: 'success',
@@ -76,7 +81,7 @@ export class SettingsComponent implements OnInit {
           });
           this.userDialog = false;
 
-          this.users = [...this.users, new User(data.id, data.username, "", data.role, data.image)];
+          this.users = [...this.users, new User(data.id, data.username, "", data.role, data.image, data.enabled)];
         },
         error => {
           this.messageService.add({
@@ -87,34 +92,48 @@ export class SettingsComponent implements OnInit {
         });
     }
     else {
-      // this.project.name = name;
-      // this.project.users = users;
-      // this.projectService.update(this.project.id as number, this.project).subscribe(
-      //   (data: any) => {
-      //     this.messageService.add({
-      //       severity: 'success',
-      //       summary: 'Success',
-      //       detail: 'Project updated successfully'
-      //     });
-      //     this.projectDialog = false;
-      //     this.projects.find(p => p.id === this.project!.id)!.name = data.name;
-      //   },
-      //   error => {
-      //     this.messageService.add({
-      //       severity: 'error',
-      //       summary: 'Error',
-      //       detail: 'Error updating project'
-      //     });
-      //   });
+      this.user.username = username;
+      this.user.image = image;
+      this.user.role = role;
+
+      this.updateUser();
     }
   }
 
-  deleteProject(event: Event, user: User){
+  updateUser() {
+    this.userService.update(this.user!.id as number, this.user!).subscribe(
+      (data: any) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Project updated successfully'
+        });
+        this.userDialog = false;
+        this.users.find(u => u.id === this.user!.id)!.username = data.username;
+        this.users.find(u => u.id === this.user!.id)!.role = data.role;
+        this.users.find(u => u.id === this.user!.id)!.image = data.image;
+        this.users.find(u => u.id === this.user!.id)!.enabled = data.enabled;
 
+        this.users = this.users.filter(u => u.enabled);
+        this.user = null;
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error updating project'
+        });
+      });
+  }
+
+  deleteUser(event: Event, user: User){
+    this.user = user;
+    this.user.enabled = false;
+    this.updateUser();
   }
 
   getRole(user: User) {
-    return this.roleService.getRole(user);
+    return this.roleService.getRoleByUser(user);
   }
 
   getAllRoles() {

@@ -25,8 +25,8 @@
                 <td>{{user.username}}</td>
                 <td>{{getRole(user)}}</td>
                 <td>
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(user)" pTooltip="Edit" tooltipPosition="top"></button>
-                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject($event, user)" pTooltip="Delete" tooltipPosition="top"></button>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteUser($event, user)" pTooltip="Delete" tooltipPosition="top"></button>
                 </td>
             </tr>
         </ng-template>

@@ -13,7 +13,7 @@ export class RoleService {
   roles: Role[] = [new Role(1, "ROLE_SCRUM_MASTER", ROLE_SCRUM_MASTER), new Role(2, "ROLE_PRODUCT_OWNER", ROLE_PRODUCT_OWNER),
     new Role(3, "ROLE_TEAM", ROLE_TEAM)];
 
-  getRole(user: User) {
+  getRoleByUser(user: User) {
     const role = user.role as Role;
     if(role.name == 'ROLE_PRODUCT_OWNER')
     {
@@ -28,6 +28,11 @@ export class RoleService {
       return ROLE_TEAM;
     }
     return "";
+  }
+
+  getRoleByName(name: string)
+  {
+    return this.roles.find(r => r.name == name);
   }
 
   getAllRoles() {
