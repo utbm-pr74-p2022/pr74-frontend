@@ -133,7 +133,6 @@ export class BoardComponent implements OnInit {
           detail: 'Task updated successfully'
         });
         this.taskDialog = false;
-        console.log(data);
 
         this.tasks = [this.task as Task, ...this.tasks.filter(p => p.id !== this.task!.id)];
       },
