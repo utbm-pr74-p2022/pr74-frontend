@@ -29,23 +29,23 @@ export class MenuComponent implements OnInit {
     this.authService.currentUser.subscribe(x =>
     {
       this.auth = x;
+      this.items = [
+        {
+          label: 'Navigation Bar',
+          items: [
+            { label: 'Projects', icon: 'pi pi-fw pi-sitemap', routerLink: "projects", routerLinkActiveOptions: {exact: true} },
+            { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board", routerLinkActiveOptions: {exact: true} },
+            { label: 'Backlog', icon: 'pi pi-fw pi-list', routerLink: "backlog" },
+            { label: 'Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: "settings", visible: this.auth.role == "ROLE_PRODUCT_OWNER" }
+          ],
+        },
+      ];
     });
 
     this.projectService.currentProject.subscribe(p =>
     {
       this.selectedProject = p;
     });
-    this.items = [
-      {
-        label: 'Navigation Bar',
-        items: [
-          { label: 'Projects', icon: 'pi pi-fw pi-sitemap', routerLink: "projects", routerLinkActiveOptions: {exact: true} },
-          { label: 'Board', icon: 'pi pi-fw pi-th-large', routerLink: "board", routerLinkActiveOptions: {exact: true} },
-          { label: 'Backlog', icon: 'pi pi-fw pi-list', routerLink: "backlog" },
-          { label: 'Settings', icon: 'pi pi-fw pi-sliders-h', routerLink: "settings" }
-        ],
-      },
-    ];
   }
 
   getRole() {

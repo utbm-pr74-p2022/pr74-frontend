@@ -26,6 +26,9 @@
                 <td>{{getRole(user)}}</td>
                 <td>
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top"></button>
+                  <p-confirmPopup></p-confirmPopup>
+
+
                   <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteUser($event, user)" pTooltip="Delete" tooltipPosition="top"></button>
                 </td>
             </tr>
@@ -43,17 +46,17 @@
   <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" [header]="titleForm" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
       <div class="p-field">
-          <label for="username">Username</label>
-          <input type="text" pInputText id="username" formControlName="username" required autofocus />
-          <br><br>
-          <label for="password" *ngIf="!user">Password</label>
-          <input type="password" pInputText id="password" formControlName="password" required autofocus *ngIf="!user"/>
-          <br *ngIf="!user"><br *ngIf="!user">
-          <label for="image">Image</label>
-          <input type="text" pInputText id="image" formControlName="image" required autofocus />
-          <br><br>
-          <label for="username">Role</label>
-          <p-dropdown [options]="getAllRoles()" defaultLabel="Select role" optionLabel="nameFront" display="chip" appendTo="body" formControlName="role"></p-dropdown>
+        <label for="username">Username</label>
+        <input type="text" pInputText id="username" formControlName="username" required autofocus />
+        <br><br>
+        <label for="password" *ngIf="!user">Password</label>
+        <input type="password" pInputText id="password" formControlName="password" required autofocus *ngIf="!user"/>
+        <br *ngIf="!user"><br *ngIf="!user">
+        <label for="image">Image</label>
+        <input type="text" pInputText id="image" formControlName="image" required autofocus />
+        <br><br>
+        <label for="username">Role</label>
+        <p-dropdown [options]="getAllRoles()" defaultLabel="Select role" optionLabel="nameFront" display="chip" appendTo="body" formControlName="role"></p-dropdown>
       </div>
       <br/>
     </ng-template>

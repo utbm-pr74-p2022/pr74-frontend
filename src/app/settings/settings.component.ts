@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { User } from '../models/user.model';
 import { Role } from '../models/role.model';
 import { RoleService } from '../services/role.service';
@@ -22,7 +22,8 @@ export class SettingsComponent implements OnInit {
   constructor(private messageService: MessageService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private roleService: RoleService) { }
+    private roleService: RoleService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.userService.getAll().subscribe(
@@ -129,7 +130,16 @@ export class SettingsComponent implements OnInit {
   deleteUser(event: Event, user: User){
     this.user = user;
     this.user.enabled = false;
-    this.updateUser();
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to delete this user?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.updateUser();
+      },
+      reject: () => {
+      }
+    });
   }
 
   getRole(user: User) {

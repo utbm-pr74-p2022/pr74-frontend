@@ -58,8 +58,8 @@ export class ProjectsComponent implements OnInit {
   {
     this.projectForm = this.formBuilder.group(
       {
-        username: ['', [Validators.required]],
-        role: ['', [Validators.required]]
+        name: ['', [Validators.required]],
+        users: ['', [Validators.required]]
       }
     )
   }

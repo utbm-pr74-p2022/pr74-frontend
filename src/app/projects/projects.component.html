@@ -27,8 +27,9 @@
                 <td>
                   <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2 mr-1" (click)="selectProject(project)" pTooltip="Select" tooltipPosition="top"></button>
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2 mr-1" (click)="editProduct(project)" pTooltip="Edit" tooltipPosition="top" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
-                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject($event, project)" pTooltip="Delete" tooltipPosition="top" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
                   <p-confirmPopup></p-confirmPopup>
+
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteProject($event, project)" pTooltip="Delete" tooltipPosition="top" *ngIf="auth.role == 'ROLE_PRODUCT_OWNER'"></button>
                 </td>
             </tr>
         </ng-template>
@@ -46,7 +47,7 @@
     <ng-template pTemplate="content">
       <div class="p-field">
           <label for="title">Title</label>
-          <input type="text" pInputText id="name" formControlName="name" required autofocus />
+          <input type="text" pInputText id="name" formControlName="name" autofocus />
           <br><br>
           <p-multiSelect [options]="users" defaultLabel="Select users" optionLabel="username" display="chip" appendTo="body" formControlName="users"></p-multiSelect>
       </div>
