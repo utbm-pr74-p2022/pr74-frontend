@@ -123,7 +123,9 @@ export class BoardComponent implements OnInit {
     this.task!.name = name;
     this.task!.description = description;
     this.task!.priority = priority;
-    this.task!.user = user;
+    if(user != null) {
+      this.task!.user = user.id != 0 ? user : null;
+    }
 
     this.taskService.update(this.task!.id as number, this.task as Task).subscribe(
       (data: any) => {
